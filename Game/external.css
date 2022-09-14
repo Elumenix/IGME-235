@@ -1,0 +1,48 @@
+h1 
+    { 
+    color:red;
+    font-family: sans-serif;
+    border-bottom: 1px solid blue;
+    font-family: 'Press Start 2P', monospace;
+    }
+h2 
+    {
+    color:#75172d;
+    }
+blockquote 
+    { 
+    background-color: #9a95ac;
+    padding: 1rem;
+    }
+    hr
+    {
+        color:#75172d;
+        a:hover
+    }
+body
+    {
+    background-color: #fc5f07;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    }
+p
+    {
+    margin-left: 100px;
+    }
+a:link   
+{
+    color: #231833;
+}
+a:hover 
+{
+    color: #831833;
+}
+a:active
+{
+    color: #8318a2;
+}
+a:visited
+{
+    color: aquamarine;
+}
+
+.side {float:right; margin: 0 12px;}
