@@ -1,3 +1,15 @@
+main, header, footer
+{
+    background-color: #fc5f07;
+    width: 80vw;
+    border: 1px solid black;
+    margin: 0 auto;
+    padding: 1rem;
+}
+footer
+{
+    width: 75vw;
+}
 h1 
     { 
     color:red;
@@ -17,11 +29,10 @@ blockquote
     hr
     {
         color:#75172d;
-        a:hover
     }
 body
     {
-    background-color: #fc5f07;
+    background-color: #ce1d0c;
     font-family: 'Open Sans', 'Arial', sans-serif;
     }
 p
