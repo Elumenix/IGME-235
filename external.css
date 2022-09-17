@@ -1,10 +1,16 @@
+h1, h2, p, .Important
+{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 body
 {
+text-align: center;
 background-color: #7ce557;
 font-size: 28px;
 }
 main 
 {
+    text-align: left;
 width: 80vw;
 background-color: #a0ccda;
 margin-left: auto;
@@ -17,6 +23,11 @@ padding: 1em;
     width: 40%;
     height: auto;
     margin:0 1em 0 0;
+}
+.Important
+{
+    display: inline;
+    font-style: oblique;
 }
 
 img {
