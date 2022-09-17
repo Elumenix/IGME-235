@@ -1,15 +1,48 @@
 body
 {
-background-color: darkolivegreen;
+background-color: #7ce557;
+font-size: 28px;
 }
 main 
 {
 width: 80vw;
-background-color: aquamarine;
+background-color: #a0ccda;
+margin-left: auto;
+margin-right: auto;
+padding: 1em;
 }
-img
+.profile
 {
-    width: 80%;
+    float:left !important;
+    width: 40%;
     height: auto;
-    padding: 1rem;
+    margin:0 1em 0 0;
+}
+
+img {
+    width:auto;
+    height:auto;
+    max-width: 80%;
+    max-height:80%;
+    border:20px solid #b6efd4;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+a:link
+{
+    color:#9cffd9;
+}
+a:hover
+{
+    color:#b6efd4;
+}
+a:active
+{
+    color:#9ce577;
+}
+a:visited
+{
+    color:#7bc950;
 }
