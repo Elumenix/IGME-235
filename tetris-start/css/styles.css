@@ -1,31 +1,26 @@
-h2
+figure
 {
-    border-bottom: 1px solid red;
-    clear:right;
+max-width: 650px;
+margin-left: auto;
+margin-right: auto;
 }
-img
+figure img
 {
-float:right;
-width:40%;
-margin:1em;
+    width: 100%;
 }
-div
+header, main, footer 
 {
-float:left;
-width:40%;
+width: 90vw;
+margin-left: auto;
+margin-right: auto;
+}
+section
+{
+display:flex;
+flex-flow: row wrap;
+}
+div{
+flex: 1 0 450px;
 border: 1px solid black;
-margin:1em;
-}
-footer
-{
-position:fixed;
-top:0;
-right:0;
-z-index: -1;
-color:darkgray;
-}
-.name
-{
-float:left;
-margin:1.5rem;
+width:60%;
 }
