@@ -1,1 +1,27 @@
-/* Do everything in this file */
+h2
+{
+    border-bottom: 1px solid red;
+    clear:right;
+}
+img
+{
+float:right;
+width:40%;
+margin:1em;
+}
+div
+{
+float:left;
+width:40%;
+border: 1px solid black;
+margin:1em;
+}
+footer
+{
+clear:left;
+}
+.name
+{
+float:left;
+margin:1.5rem;
+}
