@@ -1,0 +1,26 @@
+div{
+    border: 1px solid black;
+}
+#heading{
+display: grid;
+grid-template-areas: "menu banner banner"
+                     "tagline tagline blurb";
+grid-template-columns: 2fr 8fr 2fr;
+border: 1px solid black;
+}
+#menu{
+background-color: blue;
+grid-area: menu;
+}
+#banner{
+background-color: gray;
+grid-area: banner;
+}
+#tagline{
+background-color: red;
+grid-area: tagline;
+}
+#blurb{
+background-color: aliceblue;
+grid-area: blurb;
+}
