@@ -3,24 +3,38 @@ div{
 }
 #heading{
 display: grid;
-grid-template-areas: "menu banner banner"
-                     "tagline tagline blurb";
-grid-template-columns: 2fr 8fr 2fr;
+
+grid-template-columns: 5% 6.8% 29% 14.7% 44.5%;
+grid-template-rows: 1fr 1fr 2fr 3fr 1fr 1fr 1fr;
 border: 1px solid black;
 }
-#menu{
+#logo{
 background-color: blue;
-grid-area: menu;
+grid-column: 1/3;
+  grid-row: 1/3;
+  z-index: 1;
+}
+#whitespace{
+    background-color: white;
+    grid-column: 3/6;
+    grid-row: 1/2;
+    z-index: 1;    
 }
 #banner{
 background-color: gray;
-grid-area: banner;
+grid-column:1/6;
+grid-row: 2/6;
+z-index: 0;
 }
 #tagline{
 background-color: red;
-grid-area: tagline;
+grid-column: 2/4;
+grid-row: 4/7;
+z-index: 2;
 }
 #blurb{
 background-color: aliceblue;
-grid-area: blurb;
+grid-column-start: 5;
+grid-row: 5/8;
+z-index: 2;
 }
