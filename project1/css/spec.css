@@ -46,8 +46,8 @@ z-index: 2;
   display: grid;
   height: 60vh;
   
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 21.7% 10.2% 11.6% 3.3% 8.3% 11.6% 10.1% 9.9% 13.3%;
+  grid-template-rows: 23.4% 21.1% 10.6% 6.6% 4.5% 10.8% 12.8% 10.2%;
   border: 1px solid black;
   }
   #content div {
