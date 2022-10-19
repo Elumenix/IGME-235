@@ -40,21 +40,26 @@ let links = {
 		"New Media Club" : "http://newmediaclub.cias.rit.edu"
 	}
 
-
-    let colorArray = document.createElement("ol");
-    const foodArray = [];
-
     for (let i = 0; i < colors.length; i++) {
         let listItem = document.createElement("li");
         listItem.innerHTML = colors[i];
-        colorArray.appendChild(listItem);
+        document.querySelector("ol").append(listItem);
+    }    
+
+
+
+    for (let element of foods) {
+        let listItem = document.createElement("li");
+        listItem.innerHTML = element;
+        document.querySelector("ol:nth-of-type(2)").append(listItem);
     }
-    let colorsList = document.querySelector("colorsList");
-    colorsList.after(colorArray);
 
-
-    for (const element of foods) {
-        foodArray.push(element);
+    for (let i in links) {
+        let listItem = document.createElement("li");
+        let linkText = document.createTextNode(i);
+        listItem.appendChild(linkText);
+        //listItem.innerHTML = "<a href = links[i]>i</a>";
+        document.querySelector("ol:nth-of-type(3)").append(listItem);
     }
 
 
