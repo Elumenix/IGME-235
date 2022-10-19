@@ -57,8 +57,11 @@ let links = {
     for (let i in links) {
         let listItem = document.createElement("li");
         let linkText = document.createTextNode(i);
-        listItem.appendChild(linkText);
-        //listItem.innerHTML = "<a href = links[i]>i</a>";
+        let link = document.createElement("a");
+        link.href = links[i];
+
+        link.appendChild(linkText);
+        listItem.appendChild(link);
         document.querySelector("ol:nth-of-type(3)").append(listItem);
     }
 
