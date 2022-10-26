@@ -55,10 +55,14 @@ const sortedByYear = cars.sort(yearSort);
  You could do this additional filter on a separate filter on the different lines,
  or as a "one-liner" by chaining the method calls.
 */
-function highYear(car) {
-    return car["year"] >= 2010;
+let highYear = function(car) {
+    if (car["year"] >= 2010)
+	{
+		return car["year"];
+	}
 }
-const newerYearsOnly = cars.map(highYear);
+let newerYearsOnly = cars.map(highYear);
+newerYearsOnly = newerYearsOnly.filter(Number.isInteger);
 debugger;
 </script>
 </body>
