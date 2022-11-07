@@ -1,13 +1,25 @@
-let tempstring = "";
+const startKey = "https://process.filestackapi.com/At9UTT8kATHm3oqlKlMQaz";
 let xhr = new XMLHttpRequest();
+let sendButton = document.querySelector("#LinkInput input:nth-child(2)"); 
+let input = document.querySelector("#LinkInput input"); 
 
 
 xhr.onload = dataLoaded;
 xhr.onerror = dataError;
+sendButton.onclick = outputASCII;
 
 
-xhr.open("GET", "https://process.filestackapi.com/At9UTT8kATHm3oqlKlMQaz/ascii=colored:true/https://cdn.akamai.steamstatic.com/steam/apps/1875580/capsule_616x353.jpg?t=1643863443");
+
+function outputASCII() {
+let tempString = "";
+let option = "ascii=colored:true";
+
+tempString = `${startKey}/${option}/${input.value}`;
+
+
+xhr.open("GET", tempString);
 xhr.send();
+}
 
 
 
@@ -15,24 +27,10 @@ function dataLoaded(e) {
     let xhr = e.target;
     console.log(xhr.responseText);
 
-    document.write(xhr.responseText);
+    document.querySelector("#ConvertedImage").innerHTML = xhr.responseText;
 }
 
 function dataError(e){
     console.log("An error occurred");
+    document.querySelector("#ConvertedImage").innerHTML = "<p>Not a valid image url</p>";
 }
-
-function htmlToJson(div,obj){
-    if(!obj){obj=[]}
-    var tag = {}
-    tag['tagName']=div.tagName
-    tag['children'] = []
-    for(var i = 0; i< div.children.length;i++){
-       tag['children'].push(htmlToJson(div.children[i]))
-    }
-    for(var i = 0; i< div.attributes.length;i++){
-       var attr= div.attributes[i]
-       tag['@'+attr.name] = attr.value
-    }
-    return tag    
-   }
