@@ -12,7 +12,18 @@ sendButton.onclick = outputASCII;
 
 function outputASCII() {
 let tempString = "";
-let option = "ascii=colored:true";
+let option;
+
+if (document.querySelector("#Color input").checked) {
+option = "ascii=colored:true";
+}
+else {
+    option="ascii=colored:false";
+}
+
+if (document.querySelector("#Size input").value != "100") {
+    option = option + `,size:${document.querySelector("#Size input").value}`;
+}
 
 tempString = `${startKey}/${option}/${input.value}`;
 
