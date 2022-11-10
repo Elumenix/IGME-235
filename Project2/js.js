@@ -22,32 +22,48 @@ if (fullyColor.checked) {
 
 
 function outputASCII() {
-let tempString = "";
-let option;
+    let tempString = "";
+    let option;
 
-if (fullyColor.checked) {
-option = "ascii=colored:true";
-}
-else {
-    let foundColor = document.querySelector("#Foreground input").value
-
-    if (foundColor == "") {
-        option = "ascii=colored:false"
+    // Handels Text Color
+    if (fullyColor.checked) {
+    option = "ascii=colored:true";
     }
     else {
-    option=`ascii=foreground:${document.querySelector("#Foreground input").value.toString().substring(1)}`;
+        let foundColor = document.querySelector("#Foreground input").value
+
+        if (foundColor == "") {
+            // I always need some kind of modifier, so Color will fill that role
+            option = "ascii=colored:false"
+        }
+        else {
+        option=`ascii=foreground:${document.querySelector("#Foreground input").value.toString().substring(1)}`;
+        }
     }
-}
 
-if (document.querySelector("#Size input").value != "100" && document.querySelector("#Size input").value != "") {
-    option = option + `,size:${document.querySelector("#Size input").value}`;
-}
+    if (document.querySelector("#Reverse input").checked) {
+        option=`${option},reverse:true`;
+    }
 
-tempString = `${startKey}/${option}/${input.value}`;
+    // Handles Image size
+    if (document.querySelector("#Size input").value != "100" && document.querySelector("#Size input").value != "") {
+        option = option + `,size:${document.querySelector("#Size input").value}`;
+    }
 
 
-xhr.open("GET", tempString);
-xhr.send();
+    // Puts together final url that will be used
+    tempString = `${startKey}/${option}/${input.value}`;
+
+    // Handles drawing image to the screen
+    xhr.open("GET", tempString);
+    xhr.send();
+
+    // Handles background color
+    let hex = document.querySelector("#Background input").value.toString();
+
+    if (hex != "ffffff") {
+        document.querySelector("#ConvertedImage").style = `background:${hex}`;
+    }
 }
 
 

@@ -1,14 +1,8 @@
-#Color {
+#Color, #Reverse {
 display: flex;
 }
 
 #Submit{
     width: 70px;
 }
-/*#ChosenForeground{
-    display: flex;
-    align-items: center;
-}
-#ChosenForeground input{
-    height: 16px;
-}*/
+
