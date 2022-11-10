@@ -16,12 +16,18 @@ fullyColor.onchange = changeAvailability;
 if (fullyColor.checked) {
     colorOptions.style.background="#45454545";
 
-    colorOptions.querySelector("input").readOnly = true;
+    colorOptions.querySelector("input").disabled = true;
 }
 
 
 
 function outputASCII() {
+    // Shows that the api is working
+    document.querySelector("#ConvertedImage").style = `background:white`; 
+    document.querySelector("#ConvertedImage").style.color = `black`; 
+
+    document.querySelector("#ConvertedImage").innerHTML = "<p>Working...</p>"
+
     let tempString = "";
     let option;
 
@@ -57,13 +63,6 @@ function outputASCII() {
     // Handles drawing image to the screen
     xhr.open("GET", tempString);
     xhr.send();
-
-    // Handles background color
-    let hex = document.querySelector("#Background input").value.toString();
-
-    if (hex != "ffffff") {
-        document.querySelector("#ConvertedImage").style = `background:${hex}`;
-    }
 }
 
 
@@ -73,6 +72,13 @@ function dataLoaded(e) {
     console.log(xhr.responseText);
 
     document.querySelector("#ConvertedImage").innerHTML = xhr.responseText;
+
+    // Handles background color
+    let hex = document.querySelector("#Background input").value.toString();
+
+    if (hex != "ffffff") {
+        document.querySelector("#ConvertedImage").style = `background:${hex}`;
+    }
 }
 
 function dataError(e){
