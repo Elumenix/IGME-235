@@ -26,7 +26,7 @@ let stage;
 
 // game variables
 let startScene;
-let gameScene,ship,scoreLabel,lifeLabel,shootSound,hitSound,fireballSound;
+let gameScene,ship,scoreLabel,lifeLabel,gameOverScoreLabel,shootSound,hitSound,fireballSound;
 let gameOverScene;
 
 let circles = [];
@@ -173,6 +173,21 @@ function createLabelsAndButtons() {
     gameOverText.x = 100;
     gameOverText.y = sceneHeight/2 - 160;
     gameOverScene.addChild(gameOverText);
+
+    gameOverScoreLabel = new PIXI.Text("default");
+    textStyle = new PIXI.TextStyle({
+        fill: 0xFFFFFF,
+        fontSize: 36,
+        fontFamily: "Futura",
+        stroke: 0xFF0000,
+        strokeThickness: 5
+    });
+    gameOverScoreLabel.style = textStyle;
+    gameOverScoreLabel.x = 115;
+    gameOverScoreLabel.y = sceneHeight/2 + 25;
+    gameOverScene.addChild(gameOverScoreLabel);
+
+
 
     // 3B - make "play again?" button
     let playAgainButton = new PIXI.Text("Play Again?");
@@ -340,6 +355,8 @@ function end() {
 
     explosions.forEach(e=>gameScene.removeChild(e)); // ditto
 
+    gameOverScoreLabel._text = `Your final score: ${score}`;
+
     gameOverScene.visible = true;
     gameScene.visible = false;
 }
@@ -354,6 +371,14 @@ function fireBullet(e){
     let b = new Bullet(0xFFFFFF,ship.x,ship.y);
     bullets.push(b);
     gameScene.addChild(b);
+    if (score >= 5) {
+        b = new Bullet(0xFFFFFF,ship.x + 10,ship.y);
+        bullets.push(b); 
+        gameScene.addChild(b);
+        b = new Bullet(0xFFFFFF,ship.x - 10,ship.y);
+        bullets.push(b);
+        gameScene.addChild(b);
+    }
     shootSound.play();
 }
 
