@@ -345,6 +345,8 @@ function loadLevel(){
 }
 
 function end() {
+    gameOverScoreLabel.text = `Your final score: ${score}`;
+
     paused = true;
     // clear out level
     circles.forEach(c=>gameScene.removeChild(c)); // concise arrow function with no brackets and no return
@@ -354,8 +356,6 @@ function end() {
     bullets = [];
 
     explosions.forEach(e=>gameScene.removeChild(e)); // ditto
-
-    gameOverScoreLabel._text = `Your final score: ${score}`;
 
     gameOverScene.visible = true;
     gameScene.visible = false;
