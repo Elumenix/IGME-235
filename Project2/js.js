@@ -4,6 +4,8 @@ let sendButton = document.querySelector("#LinkInput input:nth-child(2)");
 let input = document.querySelector("#LinkInput input"); 
 let fullyColor = document.querySelector("#Color input");
 let colorOptions = document.querySelector("#Foreground");
+let image = document.querySelector("#ConvertedImage");
+let defaultFontSize;
 
 
 xhr.onload = dataLoaded;
@@ -27,16 +29,16 @@ input.placeholder = "Enter Image URL Here"
 
 function outputASCII() {
     // Shows that the api is working
-    document.querySelector("#ConvertedImage").style = `background:white`; 
-    document.querySelector("#ConvertedImage").style.color = `black`; 
+    image.style = `background:white`; 
+    image.style.color = `black`; 
 
-    document.querySelector("#ConvertedImage").innerHTML = "<p>Working...</p>"
+    image.innerHTML = "<p>Working...</p>"
 
     let tempString = "";
     let option;
 
     if (input.value == "") {
-        document.querySelector("#ConvertedImage").innerHTML = "<p>No Valid Image URL Was Given</p>"
+        image.innerHTML = "<p>No Valid Image URL Was Given</p>"
         return;
     }
 
@@ -80,27 +82,33 @@ function dataLoaded(e) {
     let xhr = e.target;
     console.log(xhr.responseText);
 
-    document.querySelector("#ConvertedImage").innerHTML = xhr.responseText;
+    image.innerHTML = xhr.responseText;
 
     // Handles background color
     let hex = document.querySelector("#Background input").value.toString();
 
     if (hex != "ffffff") {
-        document.querySelector("#ConvertedImage").style = `background:${hex}`;
+        image.style = `background:${hex}`;
     }
 
+    defaultFontSize = image.children[0].style.fontSize;
+    image.children[0].style.textAlign = "center"; 
+
+    // So that the image will immediately fit the viewport
+    onResize();
+
     // dataError doesn't actually get called when a wrong url is given, so this needs to be done manually
-    if (document.querySelector("#ConvertedImage").innerHTML == `validation error: task not found: \"${input.value}\"\n`) {
-        document.querySelector("#ConvertedImage").style = `background:white`; 
-        document.querySelector("#ConvertedImage").style.color = `black`; 
-        document.querySelector("#ConvertedImage").innerHTML = "<p>Not A Valid Image URL</p>";
+    if (image.innerHTML == `validation error: task not found: \"${input.value}\"\n`) {
+        image.style = `background:white`; 
+        image.style.color = `black`; 
+        image.innerHTML = "<p>Not A Valid Image URL</p>";
     }
 }
 
 function dataError(e){
     console.log("An error occurred");
-    document.querySelector("#ConvertedImage").innerHTML = "<p>Not a valid image url</p>";
-    document.querySelector("#ConvertedImage").style = `background:#ffffff`;
+    image.innerHTML = "<p>Not a valid image url</p>";
+    image.style = `background:#ffffff`;
 }
 
 function changeAvailability(e) {
@@ -116,6 +124,20 @@ function changeAvailability(e) {
     }
 }
 
-function onResize(e) {
-document.querySelector("span").clientWidth;
+function onResize() {
+    // Makes the image larger
+    if (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
+        while (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
+            let newSize = parseInt(image.children[0].style.fontSize) + 1;
+
+        image.children[0].style.fontSize = `${newSize}px`; 
+        }
+    }
+
+    // Shrinks the image
+    while (document.querySelector("span").getBoundingClientRect().width > image.offsetWidth){
+        let newSize = parseInt(image.children[0].style.fontSize) - 1;
+
+        image.children[0].style.fontSize = `${newSize}px`; 
+    }
 }
