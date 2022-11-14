@@ -16,6 +16,7 @@ fullyColor.onchange = changeAvailability;
 // Lets image size change when the window resizes
 window.addEventListener('resize', onResize);
 
+document.querySelector("#Foreground input").value = "#FFFFFF";
 
 if (fullyColor.checked) {
     colorOptions.style.background="#45454545";
@@ -91,17 +92,18 @@ function dataLoaded(e) {
         image.style = `background:${hex}`;
     }
 
-    defaultFontSize = image.children[0].style.fontSize;
-    image.children[0].style.textAlign = "center"; 
-
-    // So that the image will immediately fit the viewport
-    onResize();
-
     // dataError doesn't actually get called when a wrong url is given, so this needs to be done manually
     if (image.innerHTML == `validation error: task not found: \"${input.value}\"\n`) {
         image.style = `background:white`; 
         image.style.color = `black`; 
         image.innerHTML = "<p>Not A Valid Image URL</p>";
+    }
+    else {
+    defaultFontSize = image.children[0].style.fontSize;
+    image.children[0].style.textAlign = "center"; 
+
+    // So that the image will immediately fit the viewport
+    onResize();
     }
 }
 
