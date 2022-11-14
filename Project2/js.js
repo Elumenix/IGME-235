@@ -11,6 +11,8 @@ xhr.onerror = dataError;
 sendButton.onclick = outputASCII;
 fullyColor.onchange = changeAvailability;
 
+// Lets image size change when the window resizes
+window.addEventListener('resize', onResize);
 
 
 if (fullyColor.checked) {
@@ -18,6 +20,8 @@ if (fullyColor.checked) {
 
     colorOptions.querySelector("input").disabled = true;
 }
+
+input.placeholder = "Enter Image URL Here"
 
 
 
@@ -30,6 +34,11 @@ function outputASCII() {
 
     let tempString = "";
     let option;
+
+    if (input.value == "") {
+        document.querySelector("#ConvertedImage").innerHTML = "<p>No Valid Image URL Was Given</p>"
+        return;
+    }
 
     // Handels Text Color
     if (fullyColor.checked) {
@@ -79,11 +88,19 @@ function dataLoaded(e) {
     if (hex != "ffffff") {
         document.querySelector("#ConvertedImage").style = `background:${hex}`;
     }
+
+    // dataError doesn't actually get called when a wrong url is given, so this needs to be done manually
+    if (document.querySelector("#ConvertedImage").innerHTML == `validation error: task not found: \"${input.value}\"\n`) {
+        document.querySelector("#ConvertedImage").style = `background:white`; 
+        document.querySelector("#ConvertedImage").style.color = `black`; 
+        document.querySelector("#ConvertedImage").innerHTML = "<p>Not A Valid Image URL</p>";
+    }
 }
 
 function dataError(e){
     console.log("An error occurred");
     document.querySelector("#ConvertedImage").innerHTML = "<p>Not a valid image url</p>";
+    document.querySelector("#ConvertedImage").style = `background:#ffffff`;
 }
 
 function changeAvailability(e) {
@@ -97,4 +114,8 @@ function changeAvailability(e) {
     
         colorOptions.querySelector("input").disabled = false;
     }
+}
+
+function onResize(e) {
+document.querySelector("span").clientWidth;
 }
