@@ -3,7 +3,7 @@ let xhr = new XMLHttpRequest();
 let sendButton = document.querySelector("#LinkInput input:nth-child(2)"); 
 let input = document.querySelector("#LinkInput input"); 
 let nextFullyColor = document.querySelector("#Color input");
-let fullyColor;
+let fullyColor; // bool
 let colorOptions = document.querySelector("#Foreground");
 let image = document.querySelector("#ConvertedImage");
 let defaultFontSize;
@@ -27,6 +27,7 @@ if (nextFullyColor.checked) {
 }
 
 input.placeholder = "Enter Image URL Here"
+document.querySelector("#Size input").placeholder = "10 - 100";
 
 insertIntoSidebar();
 
@@ -45,7 +46,7 @@ function outputASCII() {
     fullyColor = nextFullyColor.checked;
 
     if (input.value == "") {
-        image.innerHTML = "<p>No Valid Image URL Was Given</p>"
+        image.innerHTML = "<p>No Valid Image URL Was Given.</p>"
         return;
     }
 
@@ -70,8 +71,15 @@ function outputASCII() {
     }
 
     // Handles Image size
-    if (document.querySelector("#Size input").value != "100" && document.querySelector("#Size input").value != "") {
+    let imageSize = document.querySelector("#Size input").value;
+    if (imageSize != "100" && document.querySelector("#Size input").value != "") {
+        if (imageSize < "10" || imageSize > "100") {
+            image.innerHTML = "<p>Image Size must be within the range of 10 - 100.</p>"
+            return;
+        }
+        else {
         option = option + `,size:${document.querySelector("#Size input").value}`;
+        }
     }
 
 
