@@ -2,8 +2,18 @@
 display: flex;
 }
 
+p{
+  font-size: 120%;
+}
+
 #Submit{
-    width: 110px;
+  width: 110px;   
+  height: 30px;
+}
+
+#LinkInput input, #Size input {
+  height: 24px;
+  width: 170px;
 }
 
 .sidebar {

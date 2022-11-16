@@ -222,8 +222,8 @@ function getPreviousImage(e) {
 
 
 function openNav() {
-document.getElementById("mySidebar").style.width = "400px";
-document.getElementById("main").style.marginRight = "400px";
+document.getElementById("mySidebar").style.width = "500px";
+document.getElementById("main").style.marginRight = "500px";
 document.querySelector(".openbtn").onclick = closeNav;
 }
 
@@ -253,7 +253,7 @@ if (parsedString[2] == "true") {
     targetDiv.setAttribute("fullyColor", "true"); // Required for onResize
 
     // Shrinks the image
-    while (targetDiv.querySelector("span").getBoundingClientRect().width > 400){
+    while (targetDiv.querySelector("span").getBoundingClientRect().width > 500){
         let newSize = parseInt(targetDiv.children[0].style.fontSize) - 1;
 
         targetDiv.children[0].style.fontSize = `${newSize}px`; 
@@ -264,7 +264,7 @@ else {
     targetDiv.setAttribute("fullyColor", "false");
 
     // Shrinks the image
-    while (targetDiv.querySelector("pre").childNodes[0].length * parseInt(targetDiv.querySelector("pre").style.fontSize) / 1.8 > 400){
+    while (targetDiv.querySelector("pre").childNodes[0].length * parseInt(targetDiv.querySelector("pre").style.fontSize) / 1.8 > 500){
         let newSize = parseInt(targetDiv.children[0].style.fontSize) - 1;
 
         targetDiv.children[0].style.fontSize = `${newSize}px`; 
