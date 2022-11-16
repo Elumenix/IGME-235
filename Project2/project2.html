@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ASCII</title>
     <link rel="stylesheet" href="CSS.css">
     <script src="js.js" defer></script>
 </head>
@@ -19,14 +19,14 @@
             <input type="checkbox">
         </div>
         <div id="Foreground">
-            <p>Specify Text Color:</p>
+            <abbr title="What colors will be used for the ASCII art. This will have no effect if the user decides to have the image colored automatically."><p>Specify Text Color:</p></abbr>
             <input type="color">
         </div>
         <div id="Background">
-            <p>Background Color: </p>
+            <abbr title="The Color that will be put behind the image."><p>Background Color: </p></abbr>
             <input type="color">
         <div id="Size">
-            <abbr title="Has an affect on how many ASCII characters will be used to recreate the image, not the window resolution that will be used to display it."><p>% of Image Size (10 - 100): </p></abbr>
+            <abbr title="A percentage of the image size handeled. Has an affect on how many ASCII characters will be used to recreate the image, not the window resolution that will be used to display it. Defaults to 100% if left empty."><p>Image Size (10 - 100): </p></abbr>
             <input type="url">
         </div>
         </div>
@@ -34,7 +34,7 @@
     <br><hr>
     <div id="LinkInput">
         <input type="url">
-        <input type="button" id="Submit">
+        <input type="button" id="Submit" value="Generate ASCII!">
     </div>
     <br>
     <div id="ConvertedImage"> </div>
