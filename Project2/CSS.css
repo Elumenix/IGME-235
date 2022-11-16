@@ -1,3 +1,15 @@
+#Banner{
+  height: 180px;
+  background-color: #3b3737;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+#Banner img{
+  height: 55%;
+}
+
+
 #Color, #Reverse {
 display: flex;
 }
@@ -57,7 +69,7 @@ p{
     color: white;
     padding: 10px 15px;
     border: none;
-    height: 10vh;
+    height: 5em;
   }
 
   .openbtn p{
@@ -70,7 +82,7 @@ p{
   
   #main {
     position: absolute;
-    top:10%;
+    top:35%;
     right:0;
     transition: margin-right .5s;
   }

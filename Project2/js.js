@@ -94,7 +94,6 @@ function outputASCII() {
 
 function dataLoaded(e) {
     let xhr = e.target;
-    console.log(xhr.responseText);
 
     image.innerHTML = xhr.responseText;
 
@@ -195,9 +194,6 @@ localStorage.setItem(`Dps5393ASCII${currentLocalStorageSize}`, toStorage);
 function getPreviousImage(e) {
     let targetKey = e.target.closest("div").getAttribute("key");
 
-    console.log(targetKey)
-    console.log(JSON.parse(localStorage.getItem(targetKey)));
-
     let previousImage = JSON.parse(localStorage.getItem(targetKey));
     image.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
     let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
@@ -240,7 +236,6 @@ function insertIntoSidebar() {
     let targetDiv = document.querySelector(".sidebar").querySelector(`div:nth-of-type(${i + 1})`);
 
     let previousImage = JSON.parse(localStorage.getItem(`Dps5393ASCII${i}`));
-console.log(previousImage);
     targetDiv.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
 
     let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
