@@ -2,7 +2,8 @@ const startKey = "https://process.filestackapi.com/At9UTT8kATHm3oqlKlMQaz";
 let xhr = new XMLHttpRequest();
 let sendButton = document.querySelector("#LinkInput input:nth-child(2)"); 
 let input = document.querySelector("#LinkInput input"); 
-let fullyColor = document.querySelector("#Color input");
+let nextFullyColor = document.querySelector("#Color input");
+let fullyColor;
 let colorOptions = document.querySelector("#Foreground");
 let image = document.querySelector("#ConvertedImage");
 let defaultFontSize;
@@ -11,14 +12,14 @@ let defaultFontSize;
 xhr.onload = dataLoaded;
 xhr.onerror = dataError;
 sendButton.onclick = outputASCII;
-fullyColor.onchange = changeAvailability;
+nextFullyColor.onchange = changeAvailability;
 
 // Lets image size change when the window resizes
 window.addEventListener('resize', onResize);
 
 document.querySelector("#Foreground input").value = "#FFFFFF";
 
-if (fullyColor.checked) {
+if (nextFullyColor.checked) {
     colorOptions.style.background="#45454545";
 
     colorOptions.querySelector("input").disabled = true;
@@ -26,6 +27,8 @@ if (fullyColor.checked) {
 
 input.placeholder = "Enter Image URL Here"
 
+// Testing purposes currently
+getPreviousImage();
 
 
 function outputASCII() {
@@ -38,13 +41,16 @@ function outputASCII() {
     let tempString = "";
     let option;
 
+    // Switches value over
+    fullyColor = nextFullyColor.checked;
+
     if (input.value == "") {
         image.innerHTML = "<p>No Valid Image URL Was Given</p>"
         return;
     }
 
     // Handels Text Color
-    if (fullyColor.checked) {
+    if (nextFullyColor.checked) {
     option = "ascii=colored:true";
     }
     else {
@@ -102,6 +108,9 @@ function dataLoaded(e) {
     defaultFontSize = image.children[0].style.fontSize;
     image.children[0].style.textAlign = "center"; 
 
+    // Save the completed image for the future
+    addToLocalStorage();
+
     // So that the image will immediately fit the viewport
     onResize();
     }
@@ -114,7 +123,7 @@ function dataError(e){
 }
 
 function changeAvailability(e) {
-    if (fullyColor.checked) {
+    if (nextFullyColor.checked) {
         colorOptions.style.background="#45454545";
     
         colorOptions.querySelector("input").disabled = true;
@@ -127,6 +136,7 @@ function changeAvailability(e) {
 }
 
 function onResize() {
+    if (fullyColor) {
     // Makes the image larger
     if (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
         while (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
@@ -142,4 +152,52 @@ function onResize() {
 
         image.children[0].style.fontSize = `${newSize}px`; 
     }
+}
+else{
+    // Makes the image larger
+    if (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
+        while (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
+            let newSize = parseInt(image.children[0].style.fontSize) + 1;
+
+        image.children[0].style.fontSize = `${newSize}px`; 
+        }
+    }
+
+    // Shrinks the image
+    while (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 > image.offsetWidth){
+        let newSize = parseInt(image.children[0].style.fontSize) - 1;
+
+        image.children[0].style.fontSize = `${newSize}px`; 
+    }
+}
+}
+
+function addToLocalStorage() {
+let toStorage = `${image.innerHTML},${document.querySelector("#Foreground input").value.toString()},${document.querySelector("#Background input").value.toString()},${fullyColor},${defaultFontSize}`;
+toStorage = JSON.stringify(toStorage); // now it's a String
+console.log(toStorage);
+//localStorage.setItem("Dps5393ASCII", toStorage);
+}
+
+function getPreviousImage() {
+    let previousImage = JSON.parse(localStorage.getItem("Dps5393ASCII"));
+image.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
+let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
+
+// Text color will be changed if original color wasn't automatic
+if (parsedString[2] == "false") {
+    image.children[0].style.color = parsedString[0];
+    fullyColor = false; // Required for onResize
+}
+else {
+    // Required for onResize
+    fullyColor = true;
+}
+
+// Makes sure the correct background color is used
+image.children[0].style.background = parsedString[1]; 
+defaultFontSize = parsedString[3];
+
+// Make sure picture fits it's current dimensions
+onResize();
 }
