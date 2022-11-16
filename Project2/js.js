@@ -28,8 +28,6 @@ if (nextFullyColor.checked) {
 
 input.placeholder = "Enter Image URL Here"
 
-// Testing purposes currently
-updateLocalStorageSize()
 insertIntoSidebar();
 
 
@@ -112,11 +110,11 @@ function dataLoaded(e) {
     // Save the completed image for the future
     addToLocalStorage();
 
+        // Update sidebar to include new image
+        insertIntoSidebar();
+
     // So that the image will immediately fit the viewport
     onResize();
-
-    // Update sidebar to include new image
-    insertIntoSidebar();
     }
 }
 
@@ -228,6 +226,7 @@ document.querySelector(".openbtn").onclick = openNav;
 }
 
 function insertIntoSidebar() {
+    updateLocalStorageSize();
     for (let i = 0; i < currentLocalStorageSize; i++) {
     document.querySelector(".sidebar").appendChild(document.createElement("div"))
     let targetDiv = document.querySelector(".sidebar").querySelector(`div:nth-of-type(${i + 1})`);
