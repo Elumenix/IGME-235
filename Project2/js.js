@@ -29,6 +29,7 @@ input.placeholder = "Enter Image URL Here"
 
 // Testing purposes currently
 getPreviousImage();
+insertIntoSidebar();
 
 
 function outputASCII() {
@@ -136,7 +137,8 @@ function changeAvailability(e) {
 }
 
 function onResize() {
-    if (fullyColor) {
+// Only fully colored images have spans, so the two types of images need to work differently
+if (fullyColor) {
     // Makes the image larger
     if (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
         while (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
@@ -175,12 +177,11 @@ else{
 function addToLocalStorage() {
 let toStorage = `${image.innerHTML},${document.querySelector("#Foreground input").value.toString()},${document.querySelector("#Background input").value.toString()},${fullyColor},${defaultFontSize}`;
 toStorage = JSON.stringify(toStorage); // now it's a String
-console.log(toStorage);
-//localStorage.setItem("Dps5393ASCII", toStorage);
+localStorage.setItem(`Dps5393ASCII${localStorage.length}`, toStorage);
 }
 
 function getPreviousImage() {
-    let previousImage = JSON.parse(localStorage.getItem("Dps5393ASCII"));
+    let previousImage = JSON.parse(localStorage.getItem(`Dps5393ASCII${localStorage.length - 1}`));
 image.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
 let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
 
@@ -200,4 +201,58 @@ defaultFontSize = parsedString[3];
 
 // Make sure picture fits it's current dimensions
 onResize();
+}
+
+
+function openNav() {
+document.getElementById("mySidebar").style.width = "400px";
+document.getElementById("main").style.marginRight = "400px";
+document.querySelector(".openbtn").onclick = closeNav;
+}
+
+function closeNav() {
+document.getElementById("mySidebar").style.width = "0";
+document.getElementById("main").style.marginRight= "0";
+document.querySelector(".openbtn").onclick = openNav;
+}
+
+function insertIntoSidebar() {
+    for (let i = 0; i < localStorage.length; i++) {
+    document.querySelector(".sidebar").appendChild(document.createElement("div"))
+    let targetDiv = document.querySelector(".sidebar").querySelector(`div:nth-of-type(${i + 1})`);
+
+    let previousImage = JSON.parse(localStorage.getItem(`Dps5393ASCII${i}`));
+    targetDiv.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
+
+    let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
+
+
+// Text color will be changed if original color wasn't automatic
+if (parsedString[2] == "true") {
+    targetDiv.children[0].style.color = parsedString[0];
+    targetDiv.setAttribute("fullyColor", "true"); // Required for onResize
+
+    // Shrinks the image
+    while (targetDiv.querySelector("span").getBoundingClientRect().width > 400){
+        let newSize = parseInt(targetDiv.children[0].style.fontSize) - 1;
+
+        targetDiv.children[0].style.fontSize = `${newSize}px`; 
+    }
+}
+else {
+    // Required for onResize
+    targetDiv.setAttribute("fullyColor", "false");
+
+    // Shrinks the image
+    while (targetDiv.querySelector("pre").childNodes[0].length * parseInt(targetDiv.querySelector("pre").style.fontSize) / 1.8 > 400){
+        let newSize = parseInt(targetDiv.children[0].style.fontSize) - 1;
+
+        targetDiv.children[0].style.fontSize = `${newSize}px`; 
+    }
+}
+
+// Makes sure the correct background color is used
+targetDiv.children[0].style.background = parsedString[1]; 
+targetDiv.setAttribute("defaultFontSize", parsedString[3]);
+}
 }
