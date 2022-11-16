@@ -86,7 +86,6 @@ function outputASCII() {
 }
 
 
-
 function dataLoaded(e) {
     let xhr = e.target;
     console.log(xhr.responseText);
@@ -115,6 +114,9 @@ function dataLoaded(e) {
 
     // So that the image will immediately fit the viewport
     onResize();
+
+    // Update sidebar to include new image
+    insertIntoSidebar();
     }
 }
 
@@ -185,7 +187,10 @@ localStorage.setItem(`Dps5393ASCII${currentLocalStorageSize}`, toStorage);
 }
 
 function getPreviousImage(e) {
-    console.log(e.target.closest("div").getAttribute("key"));
+    let targetKey = e.target.closest("div").getAttribute("key");
+
+    console.log(targetKey)
+    console.log(JSON.parse(localStorage.getItem(targetKey)));
 
     let previousImage = JSON.parse(localStorage.getItem(targetKey));
     image.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
@@ -201,7 +206,7 @@ function getPreviousImage(e) {
         fullyColor = true;
     }
 
-    // Makes sure the correct background color is used
+    // Makes sure the correct background color and font size is used
     image.children[0].style.background = parsedString[1]; 
     defaultFontSize = parsedString[3];
 
@@ -232,7 +237,7 @@ console.log(previousImage);
     targetDiv.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
 
     let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
-    targetDiv.setAttribute("key", `DpsASCII${i}`);
+    targetDiv.setAttribute("key", `Dps5393ASCII${i}`);
 
 
 // Text color will be changed if original color wasn't automatic
@@ -263,6 +268,17 @@ else {
 targetDiv.children[0].style.background = parsedString[1]; 
 targetDiv.setAttribute("defaultFontSize", parsedString[3]);
 targetDiv.onclick = getPreviousImage;
+targetDiv.style = "cursor: pointer"; 
+
+// Div will change color when hovered over
+targetDiv.addEventListener("mouseover", function() {
+    targetDiv.children[0].style.backgroundColor = "#444";
+});
+
+targetDiv.addEventListener("mouseout", function() {
+    targetDiv.children[0].style.backgroundColor = parsedString[1];
+});
+
 }
 }
 
