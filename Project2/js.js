@@ -7,6 +7,7 @@ let fullyColor;
 let colorOptions = document.querySelector("#Foreground");
 let image = document.querySelector("#ConvertedImage");
 let defaultFontSize;
+let currentLocalStorageSize = 0;
 
 
 xhr.onload = dataLoaded;
@@ -28,7 +29,7 @@ if (nextFullyColor.checked) {
 input.placeholder = "Enter Image URL Here"
 
 // Testing purposes currently
-getPreviousImage();
+updateLocalStorageSize()
 insertIntoSidebar();
 
 
@@ -177,30 +178,35 @@ else{
 function addToLocalStorage() {
 let toStorage = `${image.innerHTML},${document.querySelector("#Foreground input").value.toString()},${document.querySelector("#Background input").value.toString()},${fullyColor},${defaultFontSize}`;
 toStorage = JSON.stringify(toStorage); // now it's a String
-localStorage.setItem(`Dps5393ASCII${localStorage.length}`, toStorage);
+
+updateLocalStorageSize();
+
+localStorage.setItem(`Dps5393ASCII${currentLocalStorageSize}`, toStorage);
 }
 
-function getPreviousImage() {
-    let previousImage = JSON.parse(localStorage.getItem(`Dps5393ASCII${localStorage.length - 1}`));
-image.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
-let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
+function getPreviousImage(e) {
+    console.log(e.target.closest("div").getAttribute("key"));
 
-// Text color will be changed if original color wasn't automatic
-if (parsedString[2] == "false") {
-    image.children[0].style.color = parsedString[0];
-    fullyColor = false; // Required for onResize
-}
-else {
-    // Required for onResize
-    fullyColor = true;
-}
+    let previousImage = JSON.parse(localStorage.getItem(targetKey));
+    image.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
+    let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
 
-// Makes sure the correct background color is used
-image.children[0].style.background = parsedString[1]; 
-defaultFontSize = parsedString[3];
+    // Text color will be changed if original color wasn't automatic
+    if (parsedString[2] == "false") {
+        image.children[0].style.color = parsedString[0];
+        fullyColor = false; // Required for onResize
+    }
+    else {
+        // Required for onResize
+        fullyColor = true;
+    }
 
-// Make sure picture fits it's current dimensions
-onResize();
+    // Makes sure the correct background color is used
+    image.children[0].style.background = parsedString[1]; 
+    defaultFontSize = parsedString[3];
+
+    // Make sure picture fits it's current dimensions
+    onResize();
 }
 
 
@@ -217,14 +223,16 @@ document.querySelector(".openbtn").onclick = openNav;
 }
 
 function insertIntoSidebar() {
-    for (let i = 0; i < localStorage.length; i++) {
+    for (let i = 0; i < currentLocalStorageSize; i++) {
     document.querySelector(".sidebar").appendChild(document.createElement("div"))
     let targetDiv = document.querySelector(".sidebar").querySelector(`div:nth-of-type(${i + 1})`);
 
     let previousImage = JSON.parse(localStorage.getItem(`Dps5393ASCII${i}`));
+console.log(previousImage);
     targetDiv.innerHTML = previousImage.substring(0, previousImage.indexOf("</pre") + 6);
 
     let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
+    targetDiv.setAttribute("key", `DpsASCII${i}`);
 
 
 // Text color will be changed if original color wasn't automatic
@@ -254,5 +262,18 @@ else {
 // Makes sure the correct background color is used
 targetDiv.children[0].style.background = parsedString[1]; 
 targetDiv.setAttribute("defaultFontSize", parsedString[3]);
+targetDiv.onclick = getPreviousImage;
 }
+}
+
+function updateLocalStorageSize() {
+    // Figures out how many pictures are in local storage
+let picturesInStorage = 0;
+for (let i = 0; i < localStorage.length; i++) {
+    if (localStorage.key(i).substring(0, 12) == "Dps5393ASCII") {
+        picturesInStorage++;
+    }
+}
+
+currentLocalStorageSize = picturesInStorage;
 }
