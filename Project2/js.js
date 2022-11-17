@@ -73,7 +73,7 @@ function outputASCII() {
     // Handles Image size
     let imageSize = document.querySelector("#Size input").value;
     if (imageSize != "100" && document.querySelector("#Size input").value != "") {
-        if (imageSize < "10" || imageSize > "100") {
+        if (imageSize < parseInt("10") || imageSize > parseInt("100")) {
             image.innerHTML = "<p>Image Size must be within the range of 10 - 100.</p>"
             return;
         }
