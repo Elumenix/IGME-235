@@ -1,3 +1,4 @@
+"use strict";
 const startKey = "https://process.filestackapi.com/At9UTT8kATHm3oqlKlMQaz";
 let xhr = new XMLHttpRequest();
 let sendButton = document.querySelector("#LinkInput input:nth-child(2)");
@@ -8,6 +9,7 @@ let colorOptions = document.querySelector("#Foreground");
 let image = document.querySelector("#ConvertedImage");
 let defaultFontSize;
 let currentLocalStorageSize = 0;
+let aboveBreakpoint;
 
 
 xhr.onload = dataLoaded;
@@ -15,7 +17,7 @@ xhr.onerror = dataError;
 sendButton.onclick = outputASCII;
 nextFullyColor.onchange = changeAvailability;
 
-// Lets image size change when the window resizes
+// Let's image size change when the window resizes
 window.addEventListener('resize', onResize);
 
 document.querySelector("#Foreground input").value = "#FFFFFF";
@@ -25,6 +27,8 @@ if (nextFullyColor.checked) {
 
     colorOptions.querySelector("input").disabled = true;
 }
+
+aboveBreakpoint = checkAboveBreakPoint();
 
 input.placeholder = "Enter Image URL Here"
 document.querySelector("#Size input").placeholder = "10 - 100";
@@ -45,19 +49,19 @@ function outputASCII() {
     // Switches value over
     fullyColor = nextFullyColor.checked;
 
-    if (input.value == "") {
+    if (input.value === "") {
         image.innerHTML = "<p>No Valid Image URL Was Given.</p>"
         return;
     }
 
-    // Handels Text Color
+    // Handles Text Color
     if (nextFullyColor.checked) {
         option = "ascii=colored:true";
     }
     else {
         let foundColor = document.querySelector("#Foreground input").value
 
-        if (foundColor == "") {
+        if (foundColor === "") {
             // I always need some kind of modifier, so Color will fill that role
             option = "ascii=colored:false"
         }
@@ -72,7 +76,7 @@ function outputASCII() {
 
     // Handles Image size
     let imageSize = document.querySelector("#Size input").value;
-    if (imageSize != "100" && document.querySelector("#Size input").value != "") {
+    if (imageSize !== "100" && document.querySelector("#Size input").value !== "") {
         if (imageSize < parseInt("10") || imageSize > parseInt("100")) {
             image.innerHTML = "<p>Image Size must be within the range of 10 - 100.</p>"
             return;
@@ -100,12 +104,12 @@ function dataLoaded(e) {
     // Handles background color
     let hex = document.querySelector("#Background input").value.toString();
 
-    if (hex != "ffffff") {
+    if (hex !== "ffffff") {
         image.style = `background:${hex}`;
     }
 
     // dataError doesn't actually get called when a wrong url is given, so this needs to be done manually
-    if (image.innerHTML == `validation error: task not found: \"${input.value}\"\n`) {
+    if (image.innerHTML === `validation error: task not found: \"${input.value}\"\n`) {
         image.style = `background:white`;
         image.style.color = `black`;
         image.innerHTML = "<p>Not A Valid Image URL</p>";
@@ -125,13 +129,13 @@ function dataLoaded(e) {
     }
 }
 
-function dataError(e) {
+function dataError() {
     console.log("An error occurred");
     image.innerHTML = "<p>Not a valid image url</p>";
     image.style = `background:#ffffff`;
 }
 
-function changeAvailability(e) {
+function changeAvailability() {
     if (nextFullyColor.checked) {
         colorOptions.style.background = "#45454545";
 
@@ -146,39 +150,54 @@ function changeAvailability(e) {
 
 function onResize() {
     // Only fully colored images have spans, so the two types of images need to work differently
-    if (fullyColor) {
-        // Makes the image larger
-        if (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
-            while (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
-                let newSize = parseInt(image.children[0].style.fontSize) + 1;
+    if (image.children.length > 0) {
+        if (fullyColor) {
+            // Makes the image larger
+            if (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize !== defaultFontSize) {
+                while (document.querySelector("span").getBoundingClientRect().width < image.offsetWidth && image.children[0].style.fontSize !== defaultFontSize) {
+                    let newSize = parseInt(image.children[0].style.fontSize) + 1;
+
+                    image.children[0].style.fontSize = `${newSize}px`;
+                }
+            }
+
+            // Shrinks the image
+            while (document.querySelector("span").getBoundingClientRect().width > image.offsetWidth) {
+                let newSize = parseInt(image.children[0].style.fontSize) - 1;
 
                 image.children[0].style.fontSize = `${newSize}px`;
             }
-        }
+        } else {
+            // Makes the image larger
+            if (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 < image.offsetWidth && image.children[0].style.fontSize !== defaultFontSize) {
+                while (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 < image.offsetWidth && image.children[0].style.fontSize !== defaultFontSize) {
+                    let newSize = parseInt(image.children[0].style.fontSize) + 1;
 
-        // Shrinks the image
-        while (document.querySelector("span").getBoundingClientRect().width > image.offsetWidth) {
-            let newSize = parseInt(image.children[0].style.fontSize) - 1;
+                    image.children[0].style.fontSize = `${newSize}px`;
+                }
+            }
 
-            image.children[0].style.fontSize = `${newSize}px`;
+            // Shrinks the image
+            while (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 > image.offsetWidth) {
+                let newSize = parseInt(image.children[0].style.fontSize) - 1;
+
+                image.children[0].style.fontSize = `${newSize}px`;
+            }
         }
     }
-    else {
-        // Makes the image larger
-        if (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
-            while (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 < image.offsetWidth && image.children[0].style.fontSize != defaultFontSize) {
-                let newSize = parseInt(image.children[0].style.fontSize) + 1;
 
-                image.children[0].style.fontSize = `${newSize}px`;
-            }
+    if (aboveBreakpoint != checkAboveBreakPoint()) {
+        aboveBreakpoint = checkAboveBreakPoint();
+
+        // Only do this if the navbar is already open
+        if (parseInt(document.getElementById("main").style.marginRight) >  0) {
+        // Quickly resize sidebar
+        closeNav();
+        openNav();
         }
 
-        // Shrinks the image
-        while (document.querySelector("pre").childNodes[0].length * parseInt(document.querySelector("pre").style.fontSize) / 1.8 > image.offsetWidth) {
-            let newSize = parseInt(image.children[0].style.fontSize) - 1;
-
-            image.children[0].style.fontSize = `${newSize}px`;
-        }
+        // Quickly resize images
+        insertIntoSidebar();
     }
 }
 
@@ -199,7 +218,7 @@ function getPreviousImage(e) {
     let parsedString = previousImage.substring(previousImage.indexOf("</pre") + 7).split(",");
 
     // Text color will be changed if original color wasn't automatic
-    if (parsedString[2] == "false") {
+    if (parsedString[2] === "false") {
         image.children[0].style.color = parsedString[0];
         fullyColor = false; // Required for onResize
     }
@@ -218,15 +237,22 @@ function getPreviousImage(e) {
 
 
 function openNav() {
-    document.getElementById("mySidebar").style.width = "500px";
-    document.getElementById("main").style.marginRight = "500px";
-    document.querySelector(".openbtn").onclick = closeNav;
+    // Adheres to breakpoint
+    if (window.innerWidth < 650) {
+        document.getElementById("mySidebar").style.width = "200px";
+        document.getElementById("main").style.marginRight = "200px";
+    }
+    else {
+        document.getElementById("mySidebar").style.width = "500px";
+        document.getElementById("main").style.marginRight = "500px";
+    }
+    document.querySelector(".openBtn").onclick = closeNav;
 }
 
 function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
     document.getElementById("main").style.marginRight = "0";
-    document.querySelector(".openbtn").onclick = openNav;
+    document.querySelector(".openBtn").onclick = openNav;
 }
 
 function insertIntoSidebar() {
@@ -243,12 +269,20 @@ function insertIntoSidebar() {
 
 
         // Text color will be changed if original color wasn't automatic
-        if (parsedString[2] == "true") {
+        if (parsedString[2] === "true") {
             targetDiv.children[0].style.color = parsedString[0];
             targetDiv.setAttribute("fullyColor", "true"); // Required for onResize
 
+            let sizeGoal;
+            if (aboveBreakpoint) {
+                sizeGoal = 500;
+            }
+            else {
+                sizeGoal = 200;
+            }
+
             // Shrinks the image
-            while (targetDiv.querySelector("span").getBoundingClientRect().width > 500) {
+            while (targetDiv.querySelector("span").getBoundingClientRect().width > sizeGoal) {
                 let newSize = parseInt(targetDiv.children[0].style.fontSize) - 1;
 
                 targetDiv.children[0].style.fontSize = `${newSize}px`;
@@ -258,8 +292,16 @@ function insertIntoSidebar() {
             // Required for onResize
             targetDiv.setAttribute("fullyColor", "false");
 
+            let sizeGoal;
+            if (aboveBreakpoint) {
+                sizeGoal = 500;
+            }
+            else {
+                sizeGoal = 200;
+            }
+
             // Shrinks the image
-            while (targetDiv.querySelector("pre").childNodes[0].length * parseInt(targetDiv.querySelector("pre").style.fontSize) / 1.8 > 500) {
+            while (targetDiv.querySelector("pre").childNodes[0].length * parseInt(targetDiv.querySelector("pre").style.fontSize) / 1.8 > sizeGoal) {
                 let newSize = parseInt(targetDiv.children[0].style.fontSize) - 1;
 
                 targetDiv.children[0].style.fontSize = `${newSize}px`;
@@ -288,10 +330,18 @@ function updateLocalStorageSize() {
     // Figures out how many pictures are in local storage
     let picturesInStorage = 0;
     for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).substring(0, 12) == "Dps5393ASCII") {
+        if (localStorage.key(i).substring(0, 12) === "Dps5393ASCII") {
             picturesInStorage++;
         }
     }
 
     currentLocalStorageSize = picturesInStorage;
+}
+
+function checkAboveBreakPoint() {
+    if (window.innerWidth >= 650) {
+        return true;
+    }
+
+    return false;
 }
