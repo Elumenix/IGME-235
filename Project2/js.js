@@ -20,22 +20,26 @@ nextFullyColor.onchange = changeAvailability;
 // Let's image size change when the window resizes
 window.addEventListener('resize', onResize);
 
+// Default value
 document.querySelector("#Foreground input").value = "#FFFFFF";
 
+// Handles cookies messing things up
 if (nextFullyColor.checked) {
     colorOptions.style.background = "#45454545";
 
     colorOptions.querySelector("input").disabled = true;
 }
 
+// Gets default value
 aboveBreakpoint = checkAboveBreakPoint();
-
 input.placeholder = "Enter Image URL Here"
 document.querySelector("#Size input").placeholder = "10 - 100";
 
+// Puts images in sidebar in case the user already has some local storage
 insertIntoSidebar();
 
 
+/// Sends a request to an api to recieve an image in an ASCII format
 function outputASCII() {
     // Shows that the api is working
     image.style = `background:white`;
@@ -95,7 +99,7 @@ function outputASCII() {
     xhr.send();
 }
 
-
+/// Puts the image that the api recieved at the bottom of the page
 function dataLoaded(e) {
     let xhr = e.target;
 
@@ -129,12 +133,13 @@ function dataLoaded(e) {
     }
 }
 
+// Reports when a problem occurs with the API
 function dataError() {
-    console.log("An error occurred");
     image.innerHTML = "<p>Not a valid image url</p>";
     image.style = `background:#ffffff`;
 }
 
+/// Makes the text color unselectable when using the full color option
 function changeAvailability() {
     if (nextFullyColor.checked) {
         colorOptions.style.background = "#45454545";
@@ -148,6 +153,8 @@ function changeAvailability() {
     }
 }
 
+/// Resizes the main image to make sure it fits the page
+/// Keeps track of the CSS breakpoint so that the sidebar can change accordingly
 function onResize() {
     // Only fully colored images have spans, so the two types of images need to work differently
     if (image.children.length > 0) {
@@ -186,7 +193,7 @@ function onResize() {
         }
     }
 
-    if (aboveBreakpoint != checkAboveBreakPoint()) {
+    if (aboveBreakpoint !== checkAboveBreakPoint()) {
         aboveBreakpoint = checkAboveBreakPoint();
 
         // Only do this if the navbar is already open
@@ -201,6 +208,7 @@ function onResize() {
     }
 }
 
+// Adds a pictures HTML code to local storage
 function addToLocalStorage() {
     let toStorage = `${image.innerHTML},${document.querySelector("#Foreground input").value.toString()},${document.querySelector("#Background input").value.toString()},${fullyColor},${defaultFontSize}`;
     toStorage = JSON.stringify(toStorage); // now it's a String
@@ -210,6 +218,7 @@ function addToLocalStorage() {
     localStorage.setItem(`Dps5393ASCII${currentLocalStorageSize}`, toStorage);
 }
 
+// Grabs a picture from localstorage and puts it at the bottom the the main page
 function getPreviousImage(e) {
     let targetKey = e.target.closest("div").getAttribute("key");
 
@@ -235,12 +244,12 @@ function getPreviousImage(e) {
     onResize();
 }
 
-
+// Handles opening the navigation bar
 function openNav() {
     // Adheres to breakpoint
     if (window.innerWidth < 650) {
-        document.getElementById("mySidebar").style.width = "200px";
-        document.getElementById("main").style.marginRight = "200px";
+        document.getElementById("mySidebar").style.width = "240px";
+        document.getElementById("main").style.marginRight = "240px";
     }
     else {
         document.getElementById("mySidebar").style.width = "500px";
@@ -249,12 +258,14 @@ function openNav() {
     document.querySelector(".openBtn").onclick = closeNav;
 }
 
+// Handles closing the navigation bar
 function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
     document.getElementById("main").style.marginRight = "0";
     document.querySelector(".openBtn").onclick = openNav;
 }
 
+/// Puts all pictures in local storage inside the sidebar and sizes them to fit appropriately
 function insertIntoSidebar() {
     updateLocalStorageSize();
     for (let i = 0; i < currentLocalStorageSize; i++) {
@@ -278,7 +289,7 @@ function insertIntoSidebar() {
                 sizeGoal = 500;
             }
             else {
-                sizeGoal = 200;
+                sizeGoal = 240;
             }
 
             // Shrinks the image
@@ -297,7 +308,7 @@ function insertIntoSidebar() {
                 sizeGoal = 500;
             }
             else {
-                sizeGoal = 200;
+                sizeGoal = 240;
             }
 
             // Shrinks the image
@@ -326,10 +337,12 @@ function insertIntoSidebar() {
     }
 }
 
+/// Updates the program so that I know how many items are in local storage for this project 
 function updateLocalStorageSize() {
     // Figures out how many pictures are in local storage
     let picturesInStorage = 0;
     for (let i = 0; i < localStorage.length; i++) {
+        // Makes sure Item is relevant to this project
         if (localStorage.key(i).substring(0, 12) === "Dps5393ASCII") {
             picturesInStorage++;
         }
@@ -338,10 +351,8 @@ function updateLocalStorageSize() {
     currentLocalStorageSize = picturesInStorage;
 }
 
+/// Checks whether or not the page size has reached it's css breakpoint
+/// This is necessary to know when to resize all the images in the banner
 function checkAboveBreakPoint() {
-    if (window.innerWidth >= 650) {
-        return true;
-    }
-
-    return false;
+    return window.innerWidth >= 650;
 }

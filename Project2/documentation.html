@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+</head>
+<body>
+<a href="https://people.rit.edu/dps5393/235/Project2/project2.html"><h3>Project Location</h3></a>
+
+<a href="https://filestack.github.io/filestack-js/interfaces/asciiparams.html#background"><h2>API Source</h2></a>
+<p>You could be forgiven for thinking this documentation seems useless. I ended up figuring out most aspects of the API myself. <br>I chose this API because I wanted to do something more unique that I myself might get future use out of. I found this one online and thought it seemed cool so I went with it.</p>
+</body>
+
+<h1>Process</h1>
+<p>Everything wen't pretty smoothly for the most part and followed my schedule pretty well, except for the documentation, which I only spottend on the rubric as I went to upload my project. I worked on all the javascript before I began touching CSS. After a lot of confusion I was able to access the api and from there it was very easy to put an image on the screen. It wasn't difficult to add the options in either. Local storage was much more difficult, and there were multiple points when it required me to change major sections of the page, such as when I found out that its .length property also accessed storage from other pages. I started out by simply writing a function to get the most recent item of local storage on the main page. By some stroke of luck, this was the exact function I needed to accomplish loading past images from the sidebar several hours later (Something the professors unfortunately didn't notice in the feedback party). Creating the sidebar was definetly the hardest part of the project as it required me to nearly double the amount of variables to keep track of (especially considering those pesky cookies) and required some amount of heavy computation whenever it needed to be updated. This is about the point where I learned that live server doesn't handle those kinds of resources as well as an actual server, because I could only get an image or two before it would crash (and god forbid I attempt to use inspect element). Don't even get me started on resizing the sidebar once a breakpoint is hit. Overall, I used over 350 lines of code to accomplish everything, and that could probably be expanded even more if I were to break statements up. In true fashion, I did all of my CSS an hour before the feedback party started, a perk of working on a web application who's primary goal is simplicity. While the feedback party was helpful to learn more about page design, it was way too close to the due date of the project, and I wans't really left with any time to implement the feedback I was given, though my page had essentially met all the requirenments already. Something that I did find out from it though was that my size field only worked on live server and not the browser because my boolean variables were too loosly defined. Didn't know that could be interpreted differently.</p>
+
+<h1>Met Requirenments</h1>
+<h2>Controls</h2>
+<p>Submit Button<br>2 Color Selectors (Text and Background)<br>2 input fields (URL and Size)<br>2 Checkboxes (Color and Alternate Symbol Group)<br>Pullout Sidebar<br>Ability to load previously generated images</p>
+<h2>Local Storage</h2>
+<p>I used local storage to both view and load previously generated images.</p>
+<h2>Errors</h2>
+<p>I've been pretty thourogh with error checking so I'm pretty sure that no more errors will be thrown, from my js file, at least. I have occasionally seen RITs server and javascript throw warnings on my program, which I'm unsure I have the ability to do anything about. In the case of user error, my program tells the user what they did wrong. It also displays to the user when the API is working, which can take a fairly long time for some images. I made sure everything validates.</p>
+<h2>Responsive</h2>
+<p>My layout switches to stack on top of eachother when close to a phone size screen. It was actually very easy to make it responsive because I had to use less CSS for a smaller screen size, and only really needed a grid for a larger one.</p>
+<h1>Grade</h1>
+<p>I'm fairly confident that this project should get an A of some sort. I was fairly creative with how I went about the project and put in a lot more effort for user options than was required. The only areas where I could see the potential loss of points is visual design and documentation, and I think an argument could be made that visual design was fine for the type of website layout I was attempting to mimic. Documentation just isn't my strong suit, as you may or may not be able to tell.</p>
+</html>
