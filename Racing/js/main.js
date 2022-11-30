@@ -29,8 +29,8 @@ const app = new PIXI.Application(
     }
 }
 
-    let car = PIXI.BaseTexture.from(car);
-    //const car = PIXI.Sprite.from('images/Mini Pixel Pack 2/Cars/Player_green (16 x 16).png', 16, 16);
+    //let car = PIXI.BaseTexture.from(car);
+    const car = PIXI.Sprite.from('images/Mini Pixel Pack 2/Cars/Player_green (16 x 16).png');
     //const car = PIXI.TilingSprite.from('images/Mini Pixel Pack 2/Cars/Player_green (16 x 16).png', 16);
 
 
