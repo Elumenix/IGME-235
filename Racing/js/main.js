@@ -40,7 +40,7 @@ const app = new PIXI.Application(
     let straight2;
     let straight3;
 
-    assets.add('car', 'images/Mini Pixel Pack 2/Cars/Player_green (16 x 16).png');
+    assets.add('car', 'images/Mini_Pixel_Pack_2/Cars/Player_green_(16x16).png');
     assets.add('start', 'images/Tracks/Start.png');
     assets.add('finish', 'images/Tracks/Finish.png');
     assets.add('turn', 'images/Tracks/Road_01_Tile_01.png');
