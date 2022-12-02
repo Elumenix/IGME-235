@@ -7,6 +7,9 @@ const app = new PIXI.Application(
     );
     assets = PIXI.Assets;
     var keys = new Object;
+    let velocity = 0;
+    let maxSpeed = 4;
+    let acceleration = 0
 
 
     // Canvas is appended to page after the page loads
@@ -61,21 +64,48 @@ function gameLoop() {
 
     // W
     if (keys["87"]) {
-    // Uses radians so math is correct
-    car.y -= 3.0 * Math.cos(car.rotation);
-    car.x += 3.0 * Math.sin(car.rotation);
+        acceleration = .1;
+    }
+    else if (velocity > 0) {
+        acceleration = -.05;
+    }
+    else {
+        acceleration = 0;
+        if (velocity < 0) {
+            velocity = 0
+        }
     }
 
     // A
     if (keys["65"]) {
         // Uses degrees so it's a gradual turn
-        car.angle -= 1;
+        car.angle -= .1875 * Math.pow(velocity, 2);
+
+        // Turning will slow the player down
+        if (acceleration === .1 && velocity > 2) {
+            acceleration = -.015;
+        }
     }
 
     // D
     if (keys["68"]) {
         // Uses degrees so it's a gradual turn
-        car.angle += 1;
+        car.angle += .1875 * Math.pow(velocity, 2);;
+
+        // Turning will slow the player down
+        if (acceleration === .1 && velocity > 2) {
+            acceleration = -.015;
+        }
     }
+
+    // Movement
+    velocity += acceleration;
+
+    if (velocity > maxSpeed) {
+        velocity = maxSpeed;
+    }
+
+    car.y -= velocity * Math.cos(car.rotation);
+    car.x += velocity * Math.sin(car.rotation);
 
 }
