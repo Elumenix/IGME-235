@@ -8,7 +8,7 @@ const app = new PIXI.Application(
     assets = PIXI.Assets;
     var keys = new Object;
     let velocity = 0;
-    let maxSpeed = 4;
+    let maxSpeed = 5;
     let acceleration = 0
 
 
@@ -34,16 +34,12 @@ const app = new PIXI.Application(
 
    
     let car;
-    let start;
-    let finish;
-    let straight1;
-    let straight2;
-    let straight3;
-    let turn;
-    let turn2;
-    let turn3;
-    let turn4;
-    let swerve;
+    let startAsset;
+    let finishAsset;
+    let straightAsset;
+    let turnAsset;
+    let turnAsset2;
+    let swerveAsset;
 
     assets.add('car', 'images/Mini_Pixel_Pack_2/Cars/Player_green_(16x16).png');
     assets.add('start', 'images/Tracks/Start.png');
@@ -66,17 +62,13 @@ const app = new PIXI.Application(
 
         let nextLoadedTextures = assets.load(['start', 'finish', 'turn', 'straight', 'swerve', 'turn2']);
         nextLoadedTextures.then((resolvedTexture) => {
-            straight1 = PIXI.Sprite.from(resolvedTexture.straight);
-            straight2 = PIXI.Sprite.from(resolvedTexture.straight);
-            straight3 = PIXI.Sprite.from(resolvedTexture.straight);
-            start = PIXI.Sprite.from(resolvedTexture.start);
-            finish = PIXI.Sprite.from(resolvedTexture.finish);
-            swerve = PIXI.Sprite.from(resolvedTexture.swerve);
+            straightAsset = PIXI.Sprite.from(resolvedTexture.straight);
+            startAsset = PIXI.Sprite.from(resolvedTexture.start);
+            finishAsset = PIXI.Sprite.from(resolvedTexture.finish);
+            swerveAsset = PIXI.Sprite.from(resolvedTexture.swerve);
 
-            turn = PIXI.Sprite.from(resolvedTexture.turn);
-            turn2 = PIXI.Sprite.from(resolvedTexture.turn2);
-            turn3 = PIXI.Sprite.from(resolvedTexture.turn);
-            turn4 = PIXI.Sprite.from(resolvedTexture.turn2);
+            turnAsset = PIXI.Sprite.from(resolvedTexture.turn);
+            turnAsset2 = PIXI.Sprite.from(resolvedTexture.turn2);
 
         
 
@@ -90,99 +82,32 @@ const app = new PIXI.Application(
 function setup() {
     let stage = app.stage;
     app.ticker.add(gameLoop);
+    const xMid = app.screen.width / 2;
+    const yMid = app.screen.height / 2;
 
 
     // Common Tracks
-    stage.addChild(straight1);
-    stage.addChild(straight2)
-    stage.addChild(straight3);
-    stage.addChild(swerve);
+    new Road(stage, straightAsset, 0.5, xMid - 500, yMid - 40, .25, .25, 90);
+    new Road(stage, straightAsset, 0.5, xMid - 361, yMid - 179, -.25, -.25);
+    new Road(stage, straightAsset, 0.5, xMid - 233, yMid - 179, .25, .25);
+
+    new Road(stage, swerveAsset, 0.5, xMid - 73, yMid - 211, .25, -.25)
 
     // Turns
-    stage.addChild(turn);
-    stage.addChild(turn3);
-    stage.addChild(turn2);
-    stage.addChild(turn4);
+    new Road(stage, turnAsset, 0.5, xMid - 499, yMid - 179, .25, .25, 90);
+    new Road(stage, turnAsset, 0.5, xMid + 99, yMid - 93, .25, -.25, -90);
+    new Road(stage, turnAsset2, 0.5, xMid + 98, yMid - 243, .25, .25, 90);
+    new Road(stage, turnAsset2, 0.5, xMid + 248, yMid - 93, .25, -.25, -90);
+
     
     // Track Marks
-    stage.addChild(start);
-    stage.addChild(finish);
+    new Road(stage, startAsset, 0.5, xMid - 500, yMid, .0625, .0625);
+    new Road(stage, finishAsset, 0.5, xMid - 205, yMid - 179, .0625, .0625, 90);
 
     // Car
-    stage.addChild(car);
-
-
-    car.anchor.set(0.5);
+    addObject(stage, car, 0.5, xMid - 500, yMid - 40);
     car.width = 32;
-    car.height = 32
-    car.x = app.screen.width / 2 - 500;
-    car.y = app.screen.height / 2 + 30;
-
-    straight1.anchor.set(0.5);
-    straight1.x = app.screen.width / 2 - 500;
-    straight1.y = app.screen.height / 2 - 40;
-    straight1.scale.x = .25;
-    straight1.scale.y = .25;
-    straight1.angle = 90;
-
-    turn.anchor.set(0.5);
-    turn.x = app.screen.width / 2 - 499;
-    turn.y = app.screen.height / 2 - 179;
-    turn.scale.x = .25;
-    turn.scale.y = .25;
-    turn.angle = 90;
-
-    straight2.anchor.set(0.5);
-    straight2.x = app.screen.width / 2 - 361;
-    straight2.y = app.screen.height / 2 - 179;
-    straight2.scale.x = -.25;
-    straight2.scale.y = -.25;
-
-    straight3.anchor.set(0.5);
-    straight3.x = app.screen.width / 2 - 233;
-    straight3.y = app.screen.height / 2 - 179;
-    straight3.scale.x = .25;
-    straight3.scale.y = .25;
-
-    start.anchor.set(0.5);
-    start.x = app.screen.width / 2 - 500;
-    start.y = app.screen.height / 2;
-    start.scale.x = .0625;
-    start.scale.y = .0625;
-
-    finish.anchor.set(0.5);
-    finish.x = app.screen.width / 2 - 205;
-    finish.y = app.screen.height / 2 - 179;
-    finish.scale.x = .0625;
-    finish.scale.y = .0625;
-    finish.angle = 90;
-
-    swerve.anchor.set(0.5);
-    swerve.x = app.screen.width / 2 - 73;
-    swerve.y = app.screen.height / 2 - 211;
-    swerve.scale.x = .25;
-    swerve.scale.y = -.25;
-
-    turn2.anchor.set(0.5);
-    turn2.x = app.screen.width / 2 + 98;
-    turn2.y = app.screen.height / 2 - 243;
-    turn2.scale.x = .25;
-    turn2.scale.y = .25;
-    turn2.angle = 90;
-
-    turn3.anchor.set(0.5);
-    turn3.x = app.screen.width / 2 + 99;
-    turn3.y = app.screen.height / 2 - 93;
-    turn3.scale.x = .25;
-    turn3.scale.y = -.25;
-    turn3.angle = -90;
-
-    turn4.anchor.set(0.5);
-    turn4.x = app.screen.width / 2 + 248;
-    turn4.y = app.screen.height / 2 - 93;
-    turn4.scale.x = .25;
-    turn4.scale.y = -.25;
-    turn4.angle = -90;
+    car.height = 32;
 }
 
 function gameLoop() {
@@ -219,7 +144,7 @@ function gameLoop() {
         car.angle += .1875 * Math.pow(velocity, 2);;
 
         // Turning will slow the player down
-        if (acceleration === .1 && velocity > 2) {
+        if (acceleration === .1 && velocity > 3.5) {
             acceleration = -.015;
         }
     }
@@ -233,5 +158,15 @@ function gameLoop() {
 
     car.y -= velocity * Math.cos(car.rotation);
     car.x += velocity * Math.sin(car.rotation);
+}
 
+function addObject(stage, object, anchor, x, y, scaleX = 1, scaleY = 1, rotation = 0) {
+    stage.addChild(object);
+
+    object.anchor.set(anchor);
+    object.x = x;
+    object.y = y;
+    object.scale.x = scaleX;
+    object.scale.y = scaleY;
+    object.angle = rotation;
 }
