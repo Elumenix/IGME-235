@@ -143,7 +143,7 @@ function setup() {
     //graphics.beginFill(0xFFFF00);
     graphics.lineStyle(1, 0xFF0000);
 
-    collidables.push(new PIXI.Rectangle(250, 70, 310, 22));
+    collidables.push(new PIXI.Rectangle(220, 70, 340, 22));
     collidables.push(new PIXI.Rectangle(560, 50, 20, 30));
     collidables.push(new PIXI.Rectangle(580, 38, 20, 30));
     collidables.push(new PIXI.Rectangle(600, 20, 20, 30));
@@ -189,10 +189,40 @@ function setup() {
     collidables.push(new PIXI.Rectangle(940, 650, 25, 22));
     collidables.push(new PIXI.Rectangle(965, 670, 30, 22));
 
+
+    collidables.push(new PIXI.Rectangle(425, 351, 60, 22));
+    collidables.push(new PIXI.Rectangle(485, 361, 25, 22));
+    collidables.push(new PIXI.Rectangle(510, 381, 25, 22));
+    collidables.push(new PIXI.Rectangle(535, 401, 25, 22));
+    collidables.push(new PIXI.Rectangle(560, 413, 120, 22));
+    collidables.push(new PIXI.Rectangle(680, 426, 25, 22));
+    collidables.push(new PIXI.Rectangle(705, 446, 25, 22));
+    collidables.push(new PIXI.Rectangle(730, 466, 25, 22));
+    collidables.push(new PIXI.Rectangle(755, 476, 170, 22));
+    collidables.push(new PIXI.Rectangle(925, 486, 25, 22));
+    collidables.push(new PIXI.Rectangle(950, 501, 25, 22));
+    collidables.push(new PIXI.Rectangle(975, 521, 30, 22));
+    collidables.push(new PIXI.Rectangle(1005, 540, 74, 22));
+
+
+
+
+
     collidables.push(new PIXI.Rectangle(415, 522, 22, 80));
     collidables.push(new PIXI.Rectangle(405, 602, 22, 40));
     collidables.push(new PIXI.Rectangle(383, 635, 22, 25));
     collidables.push(new PIXI.Rectangle(358, 660, 25, 25));
+    collidables.push(new PIXI.Rectangle(333, 675, 25, 25));
+    collidables.push(new PIXI.Rectangle(150, 688, 183, 25));
+    collidables.push(new PIXI.Rectangle(125, 680, 25, 25));
+    collidables.push(new PIXI.Rectangle(100, 670, 25, 25));
+    collidables.push(new PIXI.Rectangle(75, 655, 25, 25));
+    collidables.push(new PIXI.Rectangle(50, 625, 25, 25));
+
+
+
+
+
 
 
     // Inside Swerve
@@ -202,13 +232,34 @@ function setup() {
     collidables.push(new PIXI.Rectangle(220, 440, 22, 20));
     collidables.push(new PIXI.Rectangle(235, 420, 22, 20));
     collidables.push(new PIXI.Rectangle(245, 220, 22, 200));
+    collidables.push(new PIXI.Rectangle(202, 540, 85, 22));
+    
 
-    collidables.push(new PIXI.Rectangle(30, 500, 22, 60));
+
+    collidables.push(new PIXI.Rectangle(30, 500, 22, 122));
     collidables.push(new PIXI.Rectangle(40, 480, 22, 20));
     collidables.push(new PIXI.Rectangle(50, 460, 22, 20));
     collidables.push(new PIXI.Rectangle(65, 440, 22, 20));
     collidables.push(new PIXI.Rectangle(80, 420, 22, 20));
     collidables.push(new PIXI.Rectangle(95, 220, 22, 200));
+
+    collidables.push(new PIXI.Rectangle(98, 160, 22, 60));
+    collidables.push(new PIXI.Rectangle(120, 130, 22, 28));
+    collidables.push(new PIXI.Rectangle(142, 100, 22, 28));
+    collidables.push(new PIXI.Rectangle(164, 85, 22, 28));
+    collidables.push(new PIXI.Rectangle(186, 75, 34, 24));
+
+    collidables.push(new PIXI.Rectangle(267, 220, 293, 22));
+    collidables.push(new PIXI.Rectangle(560, 212, 20, 30));
+    collidables.push(new PIXI.Rectangle(580, 200, 20, 30));
+    collidables.push(new PIXI.Rectangle(600, 187, 20, 30));
+    collidables.push(new PIXI.Rectangle(620, 172, 20, 30));
+    collidables.push(new PIXI.Rectangle(640, 160, 74, 22));
+
+
+
+
+
 
 
 
@@ -280,8 +331,8 @@ function gameLoop() {
         car.angle -= .1875 * Math.pow(velocity, 2);
 
         // Turning will slow the player down
-        if (acceleration === .1 && velocity > 2) {
-            acceleration = -.015;
+        if (acceleration === .1 && velocity > 2.5) {
+            acceleration = -.02;
         }
     }
 
@@ -291,8 +342,8 @@ function gameLoop() {
         car.angle += .1875 * Math.pow(velocity, 2);;
 
         // Turning will slow the player down
-        if (acceleration === .1 && velocity > 3.5) {
-            acceleration = -.015;
+        if (acceleration === .1 && velocity > 2.5) {
+            acceleration = -.02;
         }
     }
 
