@@ -161,21 +161,19 @@ function setup() {
     collidables.push(new PIXI.Rectangle(1125, 10, 25, 30));
     collidables.push(new PIXI.Rectangle(1150, 25, 25, 30));
     collidables.push(new PIXI.Rectangle(1175, 30, 25, 50));
-
-    // Copy these for  hairpin
     collidables.push(new PIXI.Rectangle(1205, 75, 25, 300));
     collidables.push(new PIXI.Rectangle(1205, 450, 25, 150));
     collidables.push(new PIXI.Rectangle(1190, 380, 15, 75));
     collidables.push(new PIXI.Rectangle(1175, 410, 10, 20));
-
+    collidables.push(new PIXI.Rectangle(1055, 155, 25, 200));
+    collidables.push(new PIXI.Rectangle(1055, 450, 25, 90));
+    collidables.push(new PIXI.Rectangle(1070, 370, 15, 70));
+    collidables.push(new PIXI.Rectangle(1095, 410, 10, 20));
     collidables.push(new PIXI.Rectangle(1195, 600, 20, 35));
     collidables.push(new PIXI.Rectangle(1125, 675, 25, 30));
     collidables.push(new PIXI.Rectangle(1150, 660, 25, 30));
     collidables.push(new PIXI.Rectangle(1175, 635, 25, 50));
     collidables.push(new PIXI.Rectangle(1000, 690, 125, 22));
-
-
-    // Curvy Section
     collidables.push(new PIXI.Rectangle(415, 500, 60, 22));
     collidables.push(new PIXI.Rectangle(475, 510, 25, 22));
     collidables.push(new PIXI.Rectangle(500, 530, 25, 22));
@@ -188,8 +186,6 @@ function setup() {
     collidables.push(new PIXI.Rectangle(915, 635, 25, 22));
     collidables.push(new PIXI.Rectangle(940, 650, 25, 22));
     collidables.push(new PIXI.Rectangle(965, 670, 30, 22));
-
-
     collidables.push(new PIXI.Rectangle(425, 351, 60, 22));
     collidables.push(new PIXI.Rectangle(485, 361, 25, 22));
     collidables.push(new PIXI.Rectangle(510, 381, 25, 22));
@@ -203,11 +199,6 @@ function setup() {
     collidables.push(new PIXI.Rectangle(950, 501, 25, 22));
     collidables.push(new PIXI.Rectangle(975, 521, 30, 22));
     collidables.push(new PIXI.Rectangle(1005, 540, 74, 22));
-
-
-
-
-
     collidables.push(new PIXI.Rectangle(415, 522, 22, 80));
     collidables.push(new PIXI.Rectangle(405, 602, 22, 40));
     collidables.push(new PIXI.Rectangle(383, 635, 22, 25));
@@ -218,14 +209,6 @@ function setup() {
     collidables.push(new PIXI.Rectangle(100, 670, 25, 25));
     collidables.push(new PIXI.Rectangle(75, 655, 25, 25));
     collidables.push(new PIXI.Rectangle(50, 625, 25, 25));
-
-
-
-
-
-
-
-    // Inside Swerve
     collidables.push(new PIXI.Rectangle(180, 500, 22, 60));
     collidables.push(new PIXI.Rectangle(190, 480, 22, 20));
     collidables.push(new PIXI.Rectangle(205, 460, 22, 20));
@@ -233,28 +216,45 @@ function setup() {
     collidables.push(new PIXI.Rectangle(235, 420, 22, 20));
     collidables.push(new PIXI.Rectangle(245, 220, 22, 200));
     collidables.push(new PIXI.Rectangle(202, 540, 85, 22));
-    
-
-
     collidables.push(new PIXI.Rectangle(30, 500, 22, 122));
     collidables.push(new PIXI.Rectangle(40, 480, 22, 20));
     collidables.push(new PIXI.Rectangle(50, 460, 22, 20));
     collidables.push(new PIXI.Rectangle(65, 440, 22, 20));
     collidables.push(new PIXI.Rectangle(80, 420, 22, 20));
     collidables.push(new PIXI.Rectangle(95, 220, 22, 200));
-
     collidables.push(new PIXI.Rectangle(98, 160, 22, 60));
     collidables.push(new PIXI.Rectangle(120, 130, 22, 28));
     collidables.push(new PIXI.Rectangle(142, 100, 22, 28));
     collidables.push(new PIXI.Rectangle(164, 85, 22, 28));
     collidables.push(new PIXI.Rectangle(186, 75, 34, 24));
-
     collidables.push(new PIXI.Rectangle(267, 220, 293, 22));
     collidables.push(new PIXI.Rectangle(560, 212, 20, 30));
     collidables.push(new PIXI.Rectangle(580, 200, 20, 30));
     collidables.push(new PIXI.Rectangle(600, 187, 20, 30));
     collidables.push(new PIXI.Rectangle(620, 172, 20, 30));
     collidables.push(new PIXI.Rectangle(640, 160, 74, 22));
+    collidables.push(new PIXI.Rectangle(267, 450, 22, 90));
+    collidables.push(new PIXI.Rectangle(287, 420, 22, 25));
+    collidables.push(new PIXI.Rectangle(305, 390, 22, 25));
+    collidables.push(new PIXI.Rectangle(330, 370, 22, 25));
+    collidables.push(new PIXI.Rectangle(355, 355, 22, 25));
+    collidables.push(new PIXI.Rectangle(377, 350, 40, 23));
+    collidables.push(new PIXI.Rectangle(695, 185, 22, 25));
+    collidables.push(new PIXI.Rectangle(703, 210, 22, 25));
+    collidables.push(new PIXI.Rectangle(715, 235, 22, 25));
+    collidables.push(new PIXI.Rectangle(725, 260, 25, 25));
+    collidables.push(new PIXI.Rectangle(755, 285, 25, 25));
+    collidables.push(new PIXI.Rectangle(780, 305, 150, 25));
+    collidables.push(new PIXI.Rectangle(930, 285, 25, 25));
+    collidables.push(new PIXI.Rectangle(955, 260, 25, 25));
+    collidables.push(new PIXI.Rectangle(975, 235, 22, 25));
+    collidables.push(new PIXI.Rectangle(985, 210, 22, 25));
+    collidables.push(new PIXI.Rectangle(995, 155, 60, 25));
+    collidables.push(new PIXI.Rectangle(990, 180, 22, 25));
+
+
+
+
 
 
 
