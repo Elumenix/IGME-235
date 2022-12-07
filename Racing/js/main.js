@@ -10,6 +10,7 @@ const app = new PIXI.Application(
     let velocity = 0;
     let maxSpeed = 5;
     let acceleration = 0
+    let collidables = [];
 
 
     // Canvas is appended to page after the page loads
@@ -114,13 +115,6 @@ function setup() {
 
 
 
-
-
-
-
-
-
-
     // Turns
     new Road(stage, turnAsset, 0.5, xMid - 459, yMid - 204, .25, .25, 90);
     new Road(stage, turnAsset, 0.5, xMid + 139, yMid - 118, .25, -.25, -90);
@@ -134,7 +128,6 @@ function setup() {
     new Road(stage, turnAsset2, 0.5, xMid - 288, yMid + 265, .25, .25, 180);
 
     
-
     
     // Track Marks
     new Road(stage, startAsset, 0.5, xMid - 460, yMid - 25 , .0625, .0625);
@@ -144,6 +137,124 @@ function setup() {
     addObject(stage, car, 0.5, xMid - 460, yMid + 16);
     car.width = 32;
     car.height = 32;
+
+    // temp
+    var graphics = new PIXI.Graphics();
+    //graphics.beginFill(0xFFFF00);
+    graphics.lineStyle(1, 0xFF0000);
+
+    collidables.push(new PIXI.Rectangle(250, 70, 310, 22));
+    collidables.push(new PIXI.Rectangle(560, 50, 20, 30));
+    collidables.push(new PIXI.Rectangle(580, 38, 20, 30));
+    collidables.push(new PIXI.Rectangle(600, 20, 20, 30));
+    collidables.push(new PIXI.Rectangle(620, 10, 20, 30));
+    collidables.push(new PIXI.Rectangle(640, 6, 120, 22));
+    collidables.push(new PIXI.Rectangle(760, 6, 25, 30));
+    collidables.push(new PIXI.Rectangle(785, 25, 25, 30));
+    collidables.push(new PIXI.Rectangle(810, 45, 30, 35));
+    collidables.push(new PIXI.Rectangle(842, 118, 25, 60));
+    collidables.push(new PIXI.Rectangle(830, 90, 50, 20));
+    collidables.push(new PIXI.Rectangle(900, 25, 25, 30));
+    collidables.push(new PIXI.Rectangle(870, 45, 30, 35));
+    collidables.push(new PIXI.Rectangle(925, 6, 25, 30));
+    collidables.push(new PIXI.Rectangle(950, 6, 175, 22));
+    collidables.push(new PIXI.Rectangle(1125, 10, 25, 30));
+    collidables.push(new PIXI.Rectangle(1150, 25, 25, 30));
+    collidables.push(new PIXI.Rectangle(1175, 30, 25, 50));
+
+    // Copy these for  hairpin
+    collidables.push(new PIXI.Rectangle(1205, 75, 25, 300));
+    collidables.push(new PIXI.Rectangle(1205, 450, 25, 150));
+    collidables.push(new PIXI.Rectangle(1190, 380, 15, 75));
+    collidables.push(new PIXI.Rectangle(1175, 410, 10, 20));
+
+    collidables.push(new PIXI.Rectangle(1195, 600, 20, 35));
+    collidables.push(new PIXI.Rectangle(1125, 675, 25, 30));
+    collidables.push(new PIXI.Rectangle(1150, 660, 25, 30));
+    collidables.push(new PIXI.Rectangle(1175, 635, 25, 50));
+    collidables.push(new PIXI.Rectangle(1000, 690, 125, 22));
+
+
+    // Curvy Section
+    collidables.push(new PIXI.Rectangle(415, 500, 60, 22));
+    collidables.push(new PIXI.Rectangle(475, 510, 25, 22));
+    collidables.push(new PIXI.Rectangle(500, 530, 25, 22));
+    collidables.push(new PIXI.Rectangle(525, 550, 25, 22));
+    collidables.push(new PIXI.Rectangle(550, 562, 120, 22));
+    collidables.push(new PIXI.Rectangle(670, 575, 25, 22));
+    collidables.push(new PIXI.Rectangle(695, 595, 25, 22));
+    collidables.push(new PIXI.Rectangle(720, 615, 25, 22));
+    collidables.push(new PIXI.Rectangle(745, 625, 170, 22));
+    collidables.push(new PIXI.Rectangle(915, 635, 25, 22));
+    collidables.push(new PIXI.Rectangle(940, 650, 25, 22));
+    collidables.push(new PIXI.Rectangle(965, 670, 30, 22));
+
+    collidables.push(new PIXI.Rectangle(415, 522, 22, 80));
+    collidables.push(new PIXI.Rectangle(405, 602, 22, 40));
+    collidables.push(new PIXI.Rectangle(383, 635, 22, 25));
+    collidables.push(new PIXI.Rectangle(358, 660, 25, 25));
+
+
+    // Inside Swerve
+    collidables.push(new PIXI.Rectangle(180, 500, 22, 60));
+    collidables.push(new PIXI.Rectangle(190, 480, 22, 20));
+    collidables.push(new PIXI.Rectangle(205, 460, 22, 20));
+    collidables.push(new PIXI.Rectangle(220, 440, 22, 20));
+    collidables.push(new PIXI.Rectangle(235, 420, 22, 20));
+    collidables.push(new PIXI.Rectangle(245, 220, 22, 200));
+
+    collidables.push(new PIXI.Rectangle(30, 500, 22, 60));
+    collidables.push(new PIXI.Rectangle(40, 480, 22, 20));
+    collidables.push(new PIXI.Rectangle(50, 460, 22, 20));
+    collidables.push(new PIXI.Rectangle(65, 440, 22, 20));
+    collidables.push(new PIXI.Rectangle(80, 420, 22, 20));
+    collidables.push(new PIXI.Rectangle(95, 220, 22, 200));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    stage.addChild[collidables[0]];
+    
+    for (let i = 0; i < collidables.length; i++) {
+        graphics.drawRect(collidables[i].x, collidables[i].y, collidables[i].width, collidables[i].height);
+    }
+
+    stage.addChild(graphics);
+    
 }
 
 function gameLoop() {
