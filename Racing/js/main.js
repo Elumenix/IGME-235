@@ -11,6 +11,14 @@ const app = new PIXI.Application(
     let maxSpeed = 5;
     let acceleration = 0
     let collidables = [];
+    let lap = 0;
+    checknum = 0;
+
+    // Checkpoints
+    let check1;
+    let check2;
+    let check3; 
+    let check4;
 
 
     // Canvas is appended to page after the page loads
@@ -23,11 +31,11 @@ const app = new PIXI.Application(
    
 
     function keysDown(e) {
-        console.log(e.keyCode);
+        //console.log(e.keyCode);
         keys[e.keyCode] = true;
     }
     function keysUp(e) {
-        console.log(e.keyCode);
+        //console.log(e.keyCode);
         keys[e.keyCode] = false;
     }
 
@@ -139,7 +147,7 @@ function setup() {
     car.height = 32;
 
     // temp
-    var graphics = new PIXI.Graphics();
+    graphics = new PIXI.Graphics();
     //graphics.beginFill(0xFFFF00);
     graphics.lineStyle(1, 0xFF0000);
 
@@ -253,10 +261,18 @@ function setup() {
     collidables.push(new PIXI.Rectangle(995, 155, 60, 25));
     collidables.push(new PIXI.Rectangle(990, 180, 22, 25));
 
+    check1 = new PIXI.Rectangle(120, 340, 120, 5);
+    graphics.drawRect(check1.x, check1.y, check1.width, check1.height);
+    check2 = new PIXI.Rectangle(725, 60, 250, 250);
+    graphics.drawRect(check2.x, check2.y, check2.width, check2.height);
+    check3 = new PIXI.Rectangle(1092, 200, 100, 400);
+    graphics.drawRect(check3.x, check3.y, check3.width, check3.height);
+    check4 = new PIXI.Rectangle(300, 380, 150, 250);
+    graphics.drawRect(check4.x, check4.y, check4.width, check4.height);
 
     
     for (let i = 0; i < collidables.length; i++) {
-        graphics.drawRect(collidables[i].x, collidables[i].y, collidables[i].width, collidables[i].height);
+        //graphics.drawRect(collidables[i].x, collidables[i].y, collidables[i].width, collidables[i].height);
     }
 
     stage.addChild(graphics);
@@ -265,33 +281,84 @@ function setup() {
 
 function gameLoop() {
     let collide = false;
+    let intersect;
+
+    // Specific hitbox to make things not terrible as the car rotates, since it is more rectangular than square
+    let carRect = new PIXI.Rectangle(car.position.x - car.width / 4 - 1, car.position.y - car.height / 4 - 1, car.width / 2 + 4, car.height / 2 + 4);
+
+
+    trackMap(carRect);
 
     for (let i = 0; i < collidables.length; i++) {
-        //if (collidables[0].contains())
+        intersect = collidables[i].intersection(carRect);
+
+        if (intersect.width != 0 || intersect.height != 0) {
+            collide = true;
+            break;
+        }
     }
 
+    console.log(collide);
+
     // W
-    if (keys["87"]) {
+    if (keys["87"]) { // Accelerating
+        // Base speed of 1.25 in rough ground
+        if (collide === true && velocity > 1.25) {
+            acceleration = -.16;
+        }
+        else {
         acceleration = .1;
+        }
     }
-    else if (velocity > 0) {
+    else if (velocity > 0) { // slowing down
+        if (collide === true) {
+            acceleration = -.25;
+        }
+        else {
         acceleration = -.05;
+        }
     }
-    else {
+    // S
+    else if (keys["83"]) { // Accelerating backward
+        // Base speed of 2.25 in rough ground
+        if (collide === true && velocity < -2.25) {
+            acceleration = .09;
+        }
+        else {
+        acceleration = -.12;
+        }
+    }
+    else if (velocity < 0) {// slowing down backward
+        if (collide === true) {
+            acceleration = .06;
+        }
+        else {
+        acceleration = .05;
+        }
+    }
+    else { // Coming to a stop
         acceleration = 0;
-        if (velocity < 0) {
+        if (velocity < 0 && velocity > -.01) {
             velocity = 0
         }
     }
 
+    
+    
+
     // A
     if (keys["65"]) {
+        if (velocity > 0) {}
         // Uses degrees so it's a gradual turn
         car.angle -= .1875 * Math.pow(velocity, 2);
 
         // Turning will slow the player down
-        if (acceleration === .1 && velocity > 2.5) {
-            acceleration = -.02;
+        if (acceleration === .1 && velocity > 3.25) {
+            acceleration = -.03;
+        }
+        else if (acceleration === -.12 && velocity < 3.5) {
+            // Reversing is affected much less by turning
+            acceleration = -.01;
         }
     }
 
@@ -301,8 +368,12 @@ function gameLoop() {
         car.angle += .1875 * Math.pow(velocity, 2);;
 
         // Turning will slow the player down
-        if (acceleration === .1 && velocity > 2.5) {
-            acceleration = -.02;
+        if (acceleration === .1 && velocity > 3.25) {
+            acceleration = -.03;
+        }
+        else if (acceleration === -.12 && velocity < 3.5) {
+            // Reversing is affected much less by turning
+            acceleration = -.01;
         }
     }
 
@@ -311,6 +382,14 @@ function gameLoop() {
 
     if (velocity > maxSpeed) {
         velocity = maxSpeed;
+    }
+
+    if (velocity < -1 * maxSpeed * .75) {
+        velocity = -1 * maxSpeed * .75;
+    }
+
+    if (Math.abs(velocity) < .05) {
+        velocity = 0;
     }
 
     car.y -= velocity * Math.cos(car.rotation);
@@ -326,4 +405,41 @@ function addObject(stage, object, anchor, x, y, scaleX = 1, scaleY = 1, rotation
     object.scale.x = scaleX;
     object.scale.y = scaleY;
     object.angle = rotation;
+}
+
+function trackMap(carRect) {
+    let intersect;
+
+    if (checknum == 0) {
+        intersect = check1.intersection(carRect)
+        if (intersect.width != 0 || intersect.height != 0) {
+            checknum = 1;
+            lap += 1;
+
+            if (lap == 4) {
+                console.log("Finish");
+            }
+        }
+    }
+
+    if (checknum == 1) {
+        intersect = check2.intersection(carRect)
+        if (intersect.width != 0 || intersect.height != 0) {
+            checknum = 2;
+        }
+    }
+
+    if (checknum == 2) {
+        intersect = check3.intersection(carRect)
+        if (intersect.width != 0 || intersect.height != 0) {
+            checknum = 3;
+        }
+    }
+
+    if (checknum == 3) {
+        intersect = check4.intersection(carRect)
+        if (intersect.width != 0 || intersect.height != 0) {
+            checknum = 0;
+        }
+    }
 }

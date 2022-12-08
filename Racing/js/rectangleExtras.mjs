@@ -14,7 +14,7 @@ PIXI.Rectangle.prototype.equals = function equals(other) {
 };
 PIXI.Rectangle.prototype.intersection = function intersection(other, outRect) {
   if (!outRect) {
-    outRect = new Rectangle();
+    outRect = new PIXI.Rectangle();
   }
   const x0 = this.x < other.x ? other.x : this.x;
   const x1 = this.right > other.right ? other.right : this.right;
