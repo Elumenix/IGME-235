@@ -143,6 +143,7 @@ function setup() {
     //graphics.beginFill(0xFFFF00);
     graphics.lineStyle(1, 0xFF0000);
 
+    // Track border Hitboxes
     collidables.push(new PIXI.Rectangle(220, 70, 340, 22));
     collidables.push(new PIXI.Rectangle(560, 50, 20, 30));
     collidables.push(new PIXI.Rectangle(580, 38, 20, 30));
@@ -253,52 +254,6 @@ function setup() {
     collidables.push(new PIXI.Rectangle(990, 180, 22, 25));
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    stage.addChild[collidables[0]];
     
     for (let i = 0; i < collidables.length; i++) {
         graphics.drawRect(collidables[i].x, collidables[i].y, collidables[i].width, collidables[i].height);
@@ -309,7 +264,11 @@ function setup() {
 }
 
 function gameLoop() {
+    let collide = false;
 
+    for (let i = 0; i < collidables.length; i++) {
+        //if (collidables[0].contains())
+    }
 
     // W
     if (keys["87"]) {

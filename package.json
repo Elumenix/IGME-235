@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@pixi/math-extras": "^7.0.4",
     "pixi.js": "^7.0.4"
   }
 }
