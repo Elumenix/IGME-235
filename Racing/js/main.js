@@ -286,6 +286,37 @@ function gameLoop() {
     // Specific hitbox to make things not terrible as the car rotates, since it is more rectangular than square
     let carRect = new PIXI.Rectangle(car.position.x - car.width / 4 - 1, car.position.y - car.height / 4 - 1, car.width / 2 + 4, car.height / 2 + 4);
 
+    if (carRect.x < 0) {
+        if (carRect.y < 0) {
+            car.position.x = 50;
+            car.position.y = 50
+        }
+        else if (carRect.y > app.screen.height) {
+            car.position.x = 50;
+            car.position.y = app.screen.height - 50;
+        }
+        car.angle += 90;
+    }
+    if (carRect.y < 0) {
+        car.angle += 90;
+    }
+
+    if (carRect.x > app.screen.width) {
+        if (carRect.y < 0) {
+            car.position.x = app.screen.width - 50;
+            car.position.y = 50
+        }
+        else if (carRect.y > app.screen.height) {
+            car.position.x = app.screen.width - 50;
+            car.position.y = app.screen.height - 50;
+        }
+        car.angle += 90;
+    }
+
+    if (car.y > app.screen.height) {
+        car.angle += 90;
+    }
+
 
     trackMap(carRect);
 
