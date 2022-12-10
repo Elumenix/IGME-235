@@ -12,7 +12,7 @@ const app = new PIXI.Application(
     let acceleration = 0
     let collidables = [];
     let lap = 0;
-    checknum = 0;
+    let checknum = 0;
 
     // Checkpoints
     let check1;
@@ -20,6 +20,10 @@ const app = new PIXI.Application(
     let check3; 
     let check4;
 
+
+    /*let engineSound = new Howl({
+        src: ['sounds/engine-6000.mp3']
+    });*/
 
     // Canvas is appended to page after the page loads
     window.onload = function() {
@@ -42,7 +46,7 @@ const app = new PIXI.Application(
 
 
    
-    let car;
+    let carAsset;
     let startAsset;
     let finishAsset;
     let straightAsset;
@@ -51,6 +55,8 @@ const app = new PIXI.Application(
     let swerveAsset;
     let shortAsset;
     let shrinkAsset;
+    let roadTiles = [];
+    let roadRect = [];
 
     assets.add('car', 'images/Mini_Pixel_Pack_2/Cars/Player_green_(16x16).png');
     assets.add('start', 'images/Tracks/Start.png');
@@ -58,9 +64,9 @@ const app = new PIXI.Application(
     assets.add('turn', 'images/Tracks/Road_01_Tile_01.png');
     assets.add('turn2', 'images/Tracks/Road_01_Tile_02.png');
     assets.add('straight', 'images/Tracks/Road_01_Tile_03.png');
-    assets.add('swerve', 'images/Tracks/Road_01_tile_06.png');
-    assets.add('short', 'images/Tracks/Road_01_tile_07.png');
-    assets.add('shrink', 'images/Tracks/Road_01_tile_08.png')
+    assets.add('swerve', 'images/Tracks/Road_01_Tile_06.png');
+    assets.add('short', 'images/Tracks/Road_01_Tile_07.png');
+    assets.add('shrink', 'images/Tracks/Road_01_Tile_08.png')
 
 
 
@@ -103,53 +109,52 @@ function setup() {
     const yMid = app.screen.height / 2;
 
 
+    roadTiles = [
     // Common Tracks
-    new Road(stage, straightAsset, 0.5, xMid - 460, yMid - 65, .25, .25, 90);
-    new Road(stage, straightAsset, 0.5, xMid - 321, yMid - 204, -.25, -.25);
-    new Road(stage, straightAsset, 0.5, xMid - 193, yMid - 204, .25, .25);
-    new Road(stage, swerveAsset, 0.5, xMid - 33, yMid - 236, .25, -.25);
-    new Road(stage, shortAsset, 0.5, xMid + 395, yMid - 267, .25, -.25);
-    new Road(stage, straightAsset, 0.5, xMid + 502, yMid - 128, .25, -.25, 90);
-    new Road(stage, shrinkAsset, 0.5, xMid + 502, yMid, .25, -.25, 90);
-    new Road(stage, shrinkAsset, 0.5, xMid + 502, yMid + 128, .25, -.25, -90);
-    new Road(stage, swerveAsset, 0.5, xMid + 331, yMid + 235, .25, .25);
-    new Road(stage, shortAsset, 0.5, xMid + 203, yMid + 203, .25, .25);
-    new Road(stage, swerveAsset, 0.5, xMid + 75, yMid + 171, .25, .25, 180);
-    new Road(stage, swerveAsset, 0.5, xMid - 117, yMid + 107, .25, .25);
-    new Road(stage, shortAsset, 0.5, xMid - 417, yMid + 266, -.25, -.25);
-    new Road(stage, shortAsset, 0.5, xMid - 288, yMid + 183, .25, .25, 90);
-    new Road(stage, swerveAsset, 0.5, xMid - 492, yMid + 95, .25, .25, 90);
-    new Road(stage, shortAsset, 0.5, xMid - 390, yMid + 266, .25, -.25);
-
-
+    new Road(stage, straightAsset, 0.5, xMid - 460, yMid - 65, .25, .25, 90),
+    new Road(stage, straightAsset, 0.5, xMid - 321, yMid - 204, -.25, -.25),
+    new Road(stage, straightAsset, 0.5, xMid - 193, yMid - 204, .25, .25),
+    new Road(stage, swerveAsset, 0.5, xMid - 33, yMid - 236, .25, -.25),
+    new Road(stage, shortAsset, 0.5, xMid + 395, yMid - 267, .25, -.25),
+    new Road(stage, straightAsset, 0.5, xMid + 502, yMid - 128, .25, -.25, 90),
+    new Road(stage, shrinkAsset, 0.5, xMid + 502, yMid, .25, -.25, 90),
+    new Road(stage, shrinkAsset, 0.5, xMid + 502, yMid + 128, .25, -.25, -90),
+    new Road(stage, swerveAsset, 0.5, xMid + 331, yMid + 235, .25, .25),
+    new Road(stage, shortAsset, 0.5, xMid + 203, yMid + 203, .25, .25),
+    new Road(stage, swerveAsset, 0.5, xMid + 75, yMid + 171, .25, .25, 180),
+    new Road(stage, swerveAsset, 0.5, xMid - 117, yMid + 107, .25, .25),
+    new Road(stage, shortAsset, 0.5, xMid - 417, yMid + 266, -.25, -.25),
+    new Road(stage, shortAsset, 0.5, xMid - 288, yMid + 183, .25, .25, 90),
+    new Road(stage, swerveAsset, 0.5, xMid - 492, yMid + 95, .25, .25, 90),
+    new Road(stage, shortAsset, 0.5, xMid - 390, yMid + 266, .25, -.25),
 
     // Turns
-    new Road(stage, turnAsset, 0.5, xMid - 459, yMid - 204, .25, .25, 90);
-    new Road(stage, turnAsset, 0.5, xMid + 139, yMid - 118, .25, -.25, -90);
-    new Road(stage, turnAsset, 0.5, xMid + 288, yMid - 118, -.25, .25);
-    new Road(stage, turnAsset, 0.5, xMid + 289, yMid - 267, .25, .25, 90);
-    new Road(stage, turnAsset, 0.5, xMid + 502, yMid - 266, .25, .25, 180);
-    new Road(stage, turnAsset2, 0.5, xMid + 138, yMid - 268, .25, .25, 90);
-    new Road(stage, turnAsset, 0.5, xMid + 502, yMid + 266, -.25, .25);
-    new Road(stage, turnAsset2, 0.5, xMid - 288, yMid + 76, -.25, -.25, -180);
-    new Road(stage, turnAsset, 0.5, xMid - 524, yMid + 265, .25, .25);
-    new Road(stage, turnAsset2, 0.5, xMid - 288, yMid + 265, .25, .25, 180);
+    new Road(stage, turnAsset, 0.5, xMid - 459, yMid - 204, .25, .25, 90),
+    new Road(stage, turnAsset, 0.5, xMid + 139, yMid - 118, .25, -.25, -90),
+    new Road(stage, turnAsset, 0.5, xMid + 288, yMid - 118, -.25, .25),
+    new Road(stage, turnAsset, 0.5, xMid + 289, yMid - 267, .25, .25, 90),
+    new Road(stage, turnAsset, 0.5, xMid + 502, yMid - 266, .25, .25, 180),
+    new Road(stage, turnAsset2, 0.5, xMid + 138, yMid - 268, .25, .25, 90),
+    new Road(stage, turnAsset, 0.5, xMid + 502, yMid + 266, -.25, .25),
+    new Road(stage, turnAsset2, 0.5, xMid - 288, yMid + 76, -.25, -.25, -180),
+    new Road(stage, turnAsset, 0.5, xMid - 524, yMid + 265, .25, .25),
+    new Road(stage, turnAsset2, 0.5, xMid - 288, yMid + 265, .25, .25, 180),    
 
-    
-    
     // Track Marks
-    new Road(stage, startAsset, 0.5, xMid - 460, yMid - 25 , .0625, .0625);
-    //new Road(stage, finishAsset, 0.5, xMid - 165, yMid - 199, .0625, .0625, 90);
+    new Road(stage, startAsset, 0.5, xMid - 460, yMid - 25 , .0625, .0625)]
+
+
+    // Makes a rectangle of each road tile for calculations
+    for (let i = 0; i < roadTiles.length; i++) {
+        roadRect.push(new PIXI.Rectangle(roadTiles[i].x, roadTiles[i].y, roadTiles[i].sprite.width, roadTiles[i].sprite.height));
+    }
 
     // Car
     addObject(stage, car, 0.5, xMid - 460, yMid + 16);
     car.width = 32;
     car.height = 32;
 
-    // temp
-    graphics = new PIXI.Graphics();
-    //graphics.beginFill(0xFFFF00);
-    graphics.lineStyle(1, 0xFF0000);
+
 
     // Track border Hitboxes
     collidables.push(new PIXI.Rectangle(220, 70, 340, 22));
@@ -262,20 +267,9 @@ function setup() {
     collidables.push(new PIXI.Rectangle(990, 180, 22, 25));
 
     check1 = new PIXI.Rectangle(120, 340, 120, 5);
-    graphics.drawRect(check1.x, check1.y, check1.width, check1.height);
     check2 = new PIXI.Rectangle(725, 60, 250, 250);
-    graphics.drawRect(check2.x, check2.y, check2.width, check2.height);
     check3 = new PIXI.Rectangle(1092, 200, 100, 400);
-    graphics.drawRect(check3.x, check3.y, check3.width, check3.height);
     check4 = new PIXI.Rectangle(300, 380, 150, 250);
-    graphics.drawRect(check4.x, check4.y, check4.width, check4.height);
-
-    
-    for (let i = 0; i < collidables.length; i++) {
-        //graphics.drawRect(collidables[i].x, collidables[i].y, collidables[i].width, collidables[i].height);
-    }
-
-    stage.addChild(graphics);
     
 }
 
@@ -328,8 +322,6 @@ function gameLoop() {
             break;
         }
     }
-
-    console.log(collide);
 
     // W
     if (keys["87"]) { // Accelerating

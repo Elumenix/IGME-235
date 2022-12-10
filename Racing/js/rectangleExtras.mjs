@@ -48,4 +48,3 @@ PIXI.Rectangle.prototype.union = function union(other, outRect) {
   outRect.height = y2 - y1;
   return outRect;
 };
-//# sourceMappingURL=rectangleExtras.mjs.map
